@@ -46,17 +46,17 @@
                         'where' => [
                             'title' => [
                                 'condition' => 'like',
-                                'value' => '%'.$keyword,
+                                'value' => '%'.$keyword.'%',
                                 'concatinator' => 'OR'
                             ],
                             'genre' => [
                                 'condition' => 'like',
-                                'value' => '%'.$keyword,
+                                'value' => '%'.$keyword.'%',
                                 'concatinator' => 'OR'
                             ],
                             'authors' => [
                                 'condition' => 'like',
-                                'value' => '%'.$keyword,
+                                'value' => '%'.$keyword.'%',
                                 'concatinator' => 'OR'
                             ],
                         ]
