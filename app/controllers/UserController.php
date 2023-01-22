@@ -93,6 +93,8 @@
 				]
 			]);
 
+			$this->data['user'] = $user;
+
 			if(!isEqual(whoIs('user_type'), 'admin'))
 				$this->data['user_form']->remove('user_type');
 

@@ -7,12 +7,12 @@
     define('DEFAULT_REPLY_TO' , '');
 
     const MAILER_AUTH = [
-        'username' => '#',
-        'password' => '#',
-        'host'     => '#',
-        'name'     => '#',
-        'replyTo'  => '#',
-        'replyToName' => '#'
+        'username' => 'main@academymgmt.online',
+        'password' => 'ir0RF^nK;ath',
+        'host'     => 'academymgmt.online',
+        'name'     => 'TUP ARCHIVING',
+        'replyTo'  => 'donotreply@academymgmt.online',
+        'replyToName' => 'donotreply@academymgmt.online'
     ];
 
 

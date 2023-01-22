@@ -15,8 +15,7 @@
 					<thead>
 						<th>Name</th>
 						<th>Student Number</th>
-						<th>Gender</th>
-						<th>Phone Number</th>
+						<th>Email</th>
 						<th>Type</th>
 						<th>Action</th>
 					</thead>
@@ -26,8 +25,7 @@
 							<tr>
 								<td><?php echo $row->lastname . ' , ' .$row->firstname?></td>
 								<td><?php echo $row->user_identification?></td>
-								<td><?php echo $row->gender ?></td>
-								<td><?php echo $row->phone ?></td>
+								<td><?php echo $row->email ?></td>
 								<td><?php echo $row->user_type ?></td>
 								<td>
 									<?php echo wLinkDefault(_route('user:show', $row->id), 'View', ['icon' => 'eye']) ;?>

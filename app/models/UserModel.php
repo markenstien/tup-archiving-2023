@@ -46,6 +46,9 @@
 			$user_id = $id;
 			$fillable_datas = $this->getFillablesOnly($user_data);
 			$validated = $this->validate($fillable_datas, $id);
+			
+			if(!$validated)
+				return false;
 
 			if(!is_null($id))
 			{
@@ -103,7 +106,7 @@
 
 		private function validate($user_data , $id = null)
 		{
-			if(isset($user_data['email']) && !empty($user_data['username']))
+			if(!empty($user_data['email']))
 			{
 				$is_exist = $this->getByKey('email' , $user_data['email'])[0] ?? '';
 
@@ -133,7 +136,7 @@
 			// 	}
 			// }
 
-			if(isset($user_data['user_identification']) && !empty($user_data['user_identification']))
+			if(!empty($user_data['user_identification']))
 			{
 				$is_exist = $this->getByKey('user_identification' , $user_data['user_identification'])[0] ?? '';
 

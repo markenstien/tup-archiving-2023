@@ -7,6 +7,7 @@
                 ]);
             ?>
             <div class="card-body">
+                <?php Flash::show()?>
                 <div class="text-center">
                     <div class="mb-5"><?php echo wLogo()?></div>
                     <h4>Register to TUP Archiving System</h4>

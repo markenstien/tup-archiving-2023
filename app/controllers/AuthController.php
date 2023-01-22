@@ -1,8 +1,10 @@
 <?php 
 	
 	load(['UserForm'] , APPROOT.DS.'form');
+	load(['UserService'] , SERVICES);
 
 	use Form\UserForm;
+	use Services\UserService;
 
 	class AuthController extends Controller
 	{	
@@ -25,6 +27,13 @@
 
 			if(isSubmitted()) {
 				$post = request()->posts();
+
+				if(!empty($post['user_identification'])) {
+					$post['user_type'] = UserService::COMMON;
+				} else {
+					$post['user_type'] = UserService::STUDENT;
+				}
+				
 				$isOkay = $this->user->save($post);
 				if(!$isOkay) {
 					Flash::set($this->user->getErrorString(),'danger');
@@ -32,7 +41,7 @@
 				}
 				$this->meta->createVerifyUserCode($this->user->retVal['id']);
 
-				$href = URL.DS.'AuthController/code/?action=activate&code='.$this->meta->retVal['id'];
+				$href = URL.DS.'AuthController/code/?action=activate&code='.seal($this->meta->retVal['id']);
 				$link = "<a href ='{$href}'> Link </a>";
 
 				$emailContent = " Good day <strong>{$post['firstname']}</strong>,<br/>";
@@ -41,10 +50,9 @@
 				$emailContent .= " Click this {$link} or use this code to activate your account".$this->meta->retVal['code'];
 
 				$emailBody = wEmailComplete($emailContent);
+				_mail($post['email'], 'ACCOUNT VERIFICATION', $emailBody);
 
-				// _mail($post['email'], 'ACCOUNT VERIFICATION', $emailBody);
 				Flash::set("User has been created, verification link and code has been sent to your email '{$post['email']}'");
-				//thank you page
 				return redirect(_route('auth:code'));
 			}
 
@@ -119,7 +127,14 @@
 				$codeValue = $this->meta->single([
 					'meta_value' => $code
 				]);
+			}
+			
+			if(!empty($req['action']) && !empty($req['code'])) {
+				$id = unseal($req['code']);
+				$codeValue = $this->meta->get($id);
+			}
 
+			if(isset($codeValue)) {
 				if(!$codeValue) {
 					Flash::set("Invalid Code");
 					return false;
@@ -133,10 +148,11 @@
 
 				if($isOkay) {
 					Flash::set("Account Verified");
-					return redirect(_route('auth:login'));
+					$this->user->startAuth($codeValue->parent_id);
+					return redirect(_route('item:index'));
 				}
 			}
-			
+
 			return $this->view('auth/code');
 		}
 	}

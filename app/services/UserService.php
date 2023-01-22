@@ -6,6 +6,7 @@
         const STUDENT = 'student';
         const TEACHER = 'teacher';
         const STAFF = 'staff';
+        const COMMON = 'common-user';
 
 
         public static function getTypes(){
@@ -13,7 +14,8 @@
                 self::ADMIN,
                 self::STUDENT,
                 self::TEACHER,
-                self::STAFF
+                self::STAFF,
+                self::COMMON
             ];
         }
     }

@@ -10,6 +10,8 @@
 
 		<div class="card-body">
 			<?php Flash::show()?>
+
+			<h5>USER ID : <?php echo $user->user_identification?></h5>
 			<?php echo $user_form->start()?>
 			<?php echo $user_form->getFormItems()?>
 				<input type="submit" name="" class="btn btn-primary btn-sm" value="Save Changes">
