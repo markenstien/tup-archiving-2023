@@ -54,12 +54,12 @@
         break;
 
         case 'up':
-            define('URL' , 'https://vidco-pims.xyz');
+            define('URL' , 'https://www.archivecatalog.directory');
             define('DBVENDOR' , 'mysql');
             define('DBHOST' , 'localhost');
-            define('DBUSER' , 'arthsobx_pims_covid');
-            define('DBPASS' , 'UO45)AZm^5X6');
-            define('DBNAME' , 'arthsobx_pims_covid');
+            define('DBUSER' , 'korpzpru_th_main');
+            define('DBPASS' , 'Y[@h=Ytz;(f}');
+            define('DBNAME' , 'korpzpru_archive');
 
             define('BASECONTROLLER' , 'AuthController');
             define('BASEMETHOD' , 'index');
