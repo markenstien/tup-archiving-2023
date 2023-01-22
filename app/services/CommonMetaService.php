@@ -23,7 +23,8 @@
                 case self::CATALOG_LIKE:
                     $instance = self::$model->single([
                         'parent_id' => $parentId,
-                        'meta_key' => $metaKey
+                        'meta_key' => $metaKey,
+                        'user_id' => $userId
                     ]);
 
                     if($instance) {
@@ -38,7 +39,8 @@
                 case self::CATALOG_READ:
                     $instance = self::$model->single([
                         'parent_id' => $parentId,
-                        'meta_key' => $metaKey
+                        'meta_key' => $metaKey,
+                        'user_id' => $userId
                     ]);
                     if($instance) {
                         /**
@@ -55,7 +57,8 @@
                 case self::CATALOG_VIEW:
                     $instance = self::$model->single([
                         'parent_id' => $parentId,
-                        'meta_key' => $metaKey
+                        'meta_key' => $metaKey,
+                        'user_id' => $userId
                     ],'*', 'id desc');
                     if($instance) {
                         /**
