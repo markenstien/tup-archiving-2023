@@ -1,7 +1,8 @@
 <?php
 
-use Services\CommonMetaService;
-
+    use Services\CommonMetaService;
+    load(['CommonMetaService'],SERVICES);
+    
     class ItemModel extends Model
     {
         public $table = 'items';
