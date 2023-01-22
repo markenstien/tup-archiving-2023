@@ -27,41 +27,83 @@
         public function index() {
             $req = request()->inputs();
 
-            if(isset($req['btn_search'])) {
-                $keyword = trim($req['keyword']);
+            if(!empty($req)) 
+            {
+                $searchBy = $req['searchBy'] ?? 'keyword';
+                $keyword = $req['keyword'];
 
-                if(substr($keyword, 0, 1) === "#") {
-                    $keyword = substr($keyword, 1);
-
-                    $this->data['catalogs'] = $this->model->getAll([
-                        'where' => [
-                            'tags' => [
-                                'condition' => 'like',
-                                'value' => '%'.$keyword .'%'
+                switch($searchBy) {
+                    case 'tag':
+                        $this->data['catalogs'] = $this->model->getAll([
+                            'where' => [
+                                'tags' => [
+                                    'condition' => 'like',
+                                    'value' => "%{$keyword}%"
+                                ],
                             ]
-                        ]
-                    ]);
-                } else {
-                    $this->data['catalogs'] = $this->model->getAll([
-                        'where' => [
-                            'title' => [
-                                'condition' => 'like',
-                                'value' => '%'.$keyword.'%',
-                                'concatinator' => 'OR'
-                            ],
-                            'genre' => [
-                                'condition' => 'like',
-                                'value' => '%'.$keyword.'%',
-                                'concatinator' => 'OR'
-                            ],
-                            'authors' => [
-                                'condition' => 'like',
-                                'value' => '%'.$keyword.'%',
-                                'concatinator' => 'OR'
-                            ],
-                        ]
-                    ]);
+                        ]);
+                    break;
+
+                    case 'genre' :
+                        $this->data['catalogs'] = $this->model->getAll([
+                            'where' => [
+                                'genre' => [
+                                    'condition' => 'like',
+                                    'value' => "%{$keyword}%"
+                                ],
+                            ]
+                        ]);
+                    break;
+
+                    case 'author' :
+                        $this->data['catalogs'] = $this->model->getAll([
+                            'where' => [
+                                'authors' => [
+                                    'condition' => 'like',
+                                    'value' => "%{$keyword}%"
+                                ],
+                            ]
+                        ]);
+                    break;
+
+                    default:
+                        $keyword = trim($req['keyword']);
+
+                        if(substr($keyword, 0, 1) === "#") {
+                            $keyword = substr($keyword, 1);
+
+                            $this->data['catalogs'] = $this->model->getAll([
+                                'where' => [
+                                    'tags' => [
+                                        'condition' => 'like',
+                                        'value' => '%'.$keyword .'%'
+                                    ]
+                                ]
+                            ]);
+                        } else {
+                            $this->data['catalogs'] = $this->model->getAll([
+                                'where' => [
+                                    'title' => [
+                                        'condition' => 'like',
+                                        'value' => '%'.$keyword.'%',
+                                        'concatinator' => 'OR'
+                                    ],
+                                    'genre' => [
+                                        'condition' => 'like',
+                                        'value' => '%'.$keyword.'%',
+                                        'concatinator' => 'OR'
+                                    ],
+                                    'authors' => [
+                                        'condition' => 'like',
+                                        'value' => '%'.$keyword.'%',
+                                        'concatinator' => 'OR'
+                                    ],
+                                ]
+                            ]);
+                        }
                 }
+            } else {
+
             }
             return $this->view('item/index', $this->data);
         }
@@ -196,5 +238,61 @@
 
             Flash::set(CommonMetaService::$message, 'warning', 'item-like');
             return redirect(_route('item:show', $id));
+        }
+
+        public function destroy($id) {
+            $catalog = $this->model->get($id);
+
+            if(!$catalog) {
+                Flash::set("Unable to delete catalog");
+                return redirect(_route('item:index'));
+            }
+
+            $this->model->delete($id);
+
+            Flash::set("Catalog Removed");
+            return redirect(_route('item:my-catalog'));
+        }
+
+        public function addAttachment() {
+            $req = request()->inputs();
+
+            if(isSubmitted()) {
+                $id = unseal($req['id']);
+
+                if(isEqual($req['type'], 'pdf_file')) {
+                    if(!upload_empty('pdf_file')) {
+                        $isokay = $this->_attachmentModel->upload([
+                            'global_key' => 'CATALOG_PDF_FILE',
+                            'global_id'  => $id,
+                        ], 'pdf_file');
+
+                        if($isokay) {
+                            Flash::set("Document Uploaded");
+                            return redirect(_route('item:show', $id));
+                        }
+                    }
+                } else if(isEqual($req['type'], 'wallpaper')) {
+                    if(!upload_empty('wallpaper')) {
+                        $isokay = $this->_attachmentModel->upload([
+                            'global_key' => 'CATALOG_WALLPAPER',
+                            'global_id'  => $id,
+                        ], 'wallpaper');
+
+                        if($isokay) {
+                            Flash::set("Wallpaper Uploaded");
+                            return redirect(_route('item:show', $id));
+                        }
+                        
+                    }
+                } else {
+                    Flash::set("Invalid Attachment Type");
+                    return redirect(_route('item:show', $id));
+                }
+            }
+
+            $this->data['id'] = unseal($req['id']);
+            $this->data['type'] = $req['type'];
+            return $this->view('item/add_attachment', $this->data);
         }
     }

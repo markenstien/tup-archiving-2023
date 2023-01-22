@@ -1,7 +1,8 @@
 <nav class="sidebar">
     <div class="sidebar-header">
     <a href="#" class="sidebar-brand">
-        TIP-ARC
+        <?php echo COMPANY_NAME?>
+        <div style="width: 30px; display:inline-block"><img src="<?php echo _path_upload_get('main/logo_main.png') ?>" alt="" style="width:100%"></div>
     </a>
     <div class="sidebar-toggler not-active">
         <span></span>
@@ -21,7 +22,7 @@
         <li class="nav-item">
             <a href="<?php echo _route('user:index')?>" class="nav-link">
                 <i class="link-icon" data-feather="message-square"></i>
-                <span class="link-title">Users(temporary)</span>
+                <span class="link-title">Users</span>
             </a>
         </li>
 

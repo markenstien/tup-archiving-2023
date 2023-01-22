@@ -3,12 +3,13 @@
 	<div class="card">
 		<div class="card-header">
 			<h4 class="card-title">Users</h4>
-			<?php echo btnCreate(_route('user:create'))?>
+			<?php echo wLinkDefault(_route('user:create'), 'Create Users', [
+				'icon' => 'plus-circle'
+			])?>
 		</div>
 
 		<div class="card-body">
 			<?php Flash::show()?>
-
 			<div class="table-responsive" style="min-height: 30vh;">
 				<table class="table table-bordered dataTable">
 					<thead>
@@ -29,21 +30,7 @@
 								<td><?php echo $row->phone ?></td>
 								<td><?php echo $row->user_type ?></td>
 								<td>
-									<?php 
-										$anchor_items = [
-											[
-												'url' => _route('user:show' , $row->id),
-												'text' => 'View',
-												'icon' => 'eye'
-											],
-
-											[
-												'url' => _route('user:edit' , $row->id),
-												'text' => 'Edit',
-												'icon' => 'edit'
-											]
-										];
-									echo anchorList($anchor_items)?>
+									<?php echo wLinkDefault(_route('user:show', $row->id), 'View', ['icon' => 'eye']) ;?>
 								</td>
 							</tr>
 						<?php endforeach?>

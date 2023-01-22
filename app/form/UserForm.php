@@ -45,15 +45,14 @@
 			]);
 		}
 
-		public function addUserIdentification()
+		public function addUserIdentification($label = 'User ID')
 		{
 			$this->add([
 				'type' => 'text',
 				'name' => 'user_identification',
 				'class' => 'form-control',
-				'required' => true,
 				'options' => [
-					'label' => 'User ID'
+					'label' => $label
 				],
 
 				'attributes' => [

@@ -1,4 +1,5 @@
 <?php build('content') ?>
+<?php Flash::show()?>
     <?php if(!isset($catalogs)) :?>
         <div class="col-md-5 mx-auto">
             <div class="card">
@@ -45,7 +46,7 @@
                         <div><small>Total Results : <?php echo count($catalogs)?></small></div>
                         <div class="row mt-4">
                             <?php foreach($catalogs as $catalog) :?>
-                                <div class="col-md-3" style="border: 1px solid #000; padding:2px;border-radius:5px">
+                                <div class="col-md-3" style="padding:2px;border-radius:5px">
                                     <div class="card">
                                         <div class="card-body">
                                             <h5>

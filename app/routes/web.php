@@ -35,6 +35,7 @@
 		'login' => $controller.'/login',
 		'register' => $controller.'/register',
 		'logout' => $controller.'/logout',
+		'code'  => $controller.'/code'
 	];
 
 	$controller = '/AttachmentController';
@@ -65,7 +66,8 @@
 		'show'   => $controller.'/show',
 		'read'   => $controller.'/read',
 		'like'   => $controller.'/like',
-		'my-catalog' => $controller.'/myCatalog'
+		'my-catalog' => $controller.'/myCatalog',
+		'add-attachment' => $controller .'/addAttachment'
 	];
 
 	$controller = '/ItemCommentController';

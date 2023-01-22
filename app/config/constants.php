@@ -34,7 +34,7 @@
     define('COMPANY_NAME' , 'TUP');
     define('APP_NAME' , 'TUP ARCHIVING');
 
-    define('KEY_WORDS' , 'TUP ARCHIVING, Catalog archiving', 'Web Based');
+    define('KEY_WORDS' , 'TUP ARCHIVING, Catalog archiving, Web Based');
 
 
     define('DESCRIPTION' , 'Archiving systems enable organizations to quickly conduct an initial search and review of the archive for data that is potentially responsive to a litigation request or an internal investigation.');

@@ -4,9 +4,13 @@
         <div class="col-md-5">
             <div class="card">
                 <div class="card-header">
-                    <h4><?php echo $catalog->title?></h4>
-                    <span class="badge bg-danger">Popular</span>
-                    <?php echo wLinkDefault(_route('item:edit', $catalog->id),'Edit Catalog')?>
+                    <h4 class="card-title"><?php echo $catalog->title?></h4>
+                     <?php echo wLinkDefault(_route('item:edit', $catalog->id),'Edit Catalog', [
+                        'icon' => 'edit'
+                    ])?>
+                    &nbsp;
+                    &nbsp;
+                    <?php echo wLinkDefault(_route('item:index', $catalog->id),'Return To catalogs')?>
                 </div>
                 <div class="card-body">
                     <div class="d-flex align-items-start">
@@ -21,21 +25,30 @@
                             <h5 class="mb-2">Sypnosis</h5>
                             <p><?php echo $catalog->brief?></p>
 
-                            <div>
+                            <div class="mt-3">
                                 <ul class="list-unstyled">
                                     <li>Year : <?php echo $catalog->year?></li>
-                                    <li>Genre : <?php echo $catalog->genre?></li>
-                                    <li>Tags : <?php echo $catalog->tags?></li>
+                                    <li>Genre : 
+                                        <?php if(!empty($catalog->genre)): ?>
+                                            <?php echo wCatalogToStringToLink($catalog->genre, _route('item:index'), 'genre')?>
+                                        <?php else:?>
+                                            None
+                                        <?php endif?>
+                                    </li>
+                                    <li>Tags : 
+                                        <?php if(!empty($catalog->tags)): ?>
+                                            <?php echo wCatalogToStringToLink($catalog->tags, _route('item:index'), 'tag')?>
+                                        <?php else:?>
+                                            None
+                                        <?php endif?>
+                                    </li>
                                     <li class="mt-3"></li>
                                     <li>Authors : 
-                                        <?php
-                                            foreach($catalogItems['authors'] as $key => $author) {
-                                                if($key > 0) {
-                                                    echo " , ";
-                                                }
-                                                echo "<a href='#'>{$author}</a>";
-                                            }
-                                        ?>
+                                        <?php if(!empty($catalog->authors)): ?>
+                                            <?php echo wCatalogToStringToLink($catalog->authors, _route('item:index'), 'author')?>
+                                        <?php else:?>
+                                            None
+                                        <?php endif?>
                                     </li>
                                     <li>Publishers :
                                         <?php
@@ -82,7 +95,7 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-header">
-                    <h4>Comments</h4>
+                    <h4 class="card-title">Comments</h4>
                 </div>
                 <div class="card-body">
                     <?php echo $_formComment->getForm('col');?>
@@ -104,7 +117,7 @@
         <div class="col-md-3">
             <div class="card">
                 <div class="card-header">
-                    <h4>Related Catalogs</h4>
+                    <h4 class="card-title">Related Catalogs</h4>
                 </div>
                 <div class="card-body">
                     <ul class="list-group">

@@ -2,7 +2,9 @@
 	<div class="card">
 		<div class="card-header">
 			<h4 class="card-title">Create User</h4>
-			<?php echo wLinkDefault(_route('user:index'))?>
+			<?php echo wLinkDefault(_route('user:index'), 'Lists of Users', [
+				'icon' => 'arrow-left-circle'
+			])?>
 			<?php Flash::show()?>
 		</div>
 

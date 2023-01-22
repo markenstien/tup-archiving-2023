@@ -39,7 +39,7 @@ License: For each use you must have a valid license purchased only from above li
   <link rel="stylesheet" href="<?php echo _path_tmp('assets/css/demo1/style.css')?>">
   <!-- End layout styles -->
   <link rel="shortcut icon" href="<?php echo _path_tmp('assets/images/favicon.png')?>" />
-
+  <link rel="stylesheet" href="<?php echo _path_public('css/main/global.css')?>">
   <style>
     .form-group {
       margin-bottom: 5px !important;
@@ -66,7 +66,8 @@ License: For each use you must have a valid license purchased only from above li
 			</div>
 
 			<!-- partial:partials/_footer.html -->
-			<footer class="footer d-flex flex-column flex-md-row align-items-center justify-content-between px-4 py-3 border-top small">
+			<footer class="footer d-flex flex-column flex-md-row align-items-center justify-content-between px-4 py-3 border-top small" 
+        style="background-color: #fff; color:#000 !important">
 				<p class="text-muted mb-1 mb-md-0">Copyright © <?php echo date('Y')?> <a href="https://www.nobleui.com" target="_blank"><?php echo COMPANY_NAME?></a>.</p>
 			</footer>
 			<!-- partial -->

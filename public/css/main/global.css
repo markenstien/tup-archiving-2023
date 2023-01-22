@@ -2,19 +2,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200&display=swap');
 
 :root {
-  --main-color: #007FFF;
-  --color-warning : #FF642E;
-  --color-danger : #D83A56;
-  --color-success : #29CC97;
-  --color-danger-secondary:  #FFC107;
+  --main-color: #850000;
+  --color-warning : #FD841F;
+  --color-danger : #9A1663;
+  --color-success : #31C6D4;
+  --color-danger-secondary:  #BAD7E9;
   --color-base:  #F5F0F0;
 }
 
-body
+/* body
 {
 	background: var(--color-base);
 	font-family: 'Montserrat', 'Ubuntu' ,sans-serif;
-}
+} */
 
 .table{
 	color: #000 !important;
@@ -34,14 +34,11 @@ form label
 	color: #000 !important;
 }
 
-/*div.card .card-header{
-	background: #D4D3D3 !important;
-}
-*/
-/*div.card .card-title
+
+/* div.card .card-title
 {
 	font-weight: bold;
-}*/
+} */
 
 .form-control
 {
@@ -52,13 +49,22 @@ form label
 	height: 25px !important;
 }
 
+div.card .card-header{
+	background: var(--main-color);
+	color: #fff;
+}
+
+div.card .card-header > a {
+	color: #fff;
+}
 
 div.card 
 {
-	background: #F5F0F0 !important;
+	border: 1px solid var(--main-color);
+	box-sizing: border-box;
 }
 
-div.card-theme-blue .card-header{
+/* div.card-theme-blue .card-header{
 	background: #31326f !important;
 	color: #fff !important;
 }
@@ -74,7 +80,7 @@ div.card-theme-blue .card-title{
 
 div.card-theme-default .card-header{
 	background: #fff !important;
-}
+} */
 
 
 div.navigationbar
@@ -134,9 +140,10 @@ div.navigationbar ul li a,
 	background: var(--color-danger) !important;
 }
 
-.badge-primary
+.badge-primary, .btn-primary
 {
 	background: var(--main-color) !important;
+	color: #fff !important;
 }
 
 .badge-warning

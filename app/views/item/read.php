@@ -2,6 +2,7 @@
     <div class="card">
         <div class="card-header">
             <h4 class="card-title">Read : <?php echo $catalog->title?></h4>
+            <?php echo wLinkDefault(_route('item:show', $catalog->id), 'Back to Catalog')?>
             <div>Reading as : User AA</div>
         </div>
 

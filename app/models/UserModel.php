@@ -21,7 +21,8 @@
 			'created_by',
 			'user_type',
 			'user_identification',
-			'profile'
+			'profile',
+			'is_verified'
 		];
 
 
@@ -60,13 +61,21 @@
 				$user_id = $id;
 			}else
 			{
-				$fillable_datas['user_identification'] = $this->generateCode();
+				if(empty($fillable_datas['user_identification'])) {
+					$fillable_datas['user_identification'] = $this->generateCode();
+				}else {
+					$check = $this->generateCode($fillable_datas['user_identification']);
+
+					if(!$check) {
+						return false;
+					}
+				}
 				$user_id = parent::store($fillable_datas);
 			}
 			
+			$this->retVal['id'] = $user_id;
 			return $user_id;
 		}
-
 
 		public function sendCredential($id)
 		{
@@ -225,21 +234,46 @@
 			return $this->db->resultSet();
 		}
 
-		public function generateCode()
+		public function generateCode($code = null)
 		{
-			$value = random_number(3);
-			return referenceSeries(parent::lastId(), 4, date('y').$value);
+			if(is_null($code)) {
+				$reference = null;
+
+				while($reference == null) {
+					$reference = referenceSeries(parent::lastId() + 1, 3, random_number(3).'-', date('y'));
+
+					$isExist = parent::single([
+						'user_identification' => $reference
+					]);
+
+					if($isExist) {
+						$reference = null;
+					}
+				}
+				return  $reference;
+			} 
+
+			$isExist = parent::single([
+				'user_identification' => $code
+			]);
+
+			if($isExist) {
+				$this->addError("User Identification already exists. ");
+				return false;
+			}
+
+			return true;
 		}
 
 
-		public function authenticate($user_identification , $password)
+		public function authenticate($email , $password)
 		{
 			$errors = [];
 
-			$user = parent::single(['user_identification' => $user_identification]);
+			$user = parent::single(['email' => $email]);
 
 			if(!$user) {
-				$errors[] = " ID '{$user_identification}' does not exists in any account";
+				$errors[] = " Email '{$email}' does not exists in any account";
 			}
 
 			if(!isEqual($user->password ?? '' , $password)){

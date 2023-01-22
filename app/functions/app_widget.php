@@ -1,5 +1,25 @@
 <?php   
 
+    function wLogo($type = 'main') {
+        $source = URL.DS.'uploads/main/';
+        if($type == 'main') {
+            $source = $source.= 'logo_main.png';
+            return <<<EOF
+                <div>
+                    <img src= '{$source}' style='height:70px;width:70px'/>
+                </div>
+            EOF;
+        } else {
+            $source = $source.= 'logo_wide.jpg';
+            return <<<EOF
+                <div>
+                    <img src= '{$source}' style='width:100%'/>
+                </div>
+            EOF;
+        }
+    }
+    
+
     function btnCreate( $route  , $text = 'Create', $attributes  = null)
     {
         $attributes = keypair_to_str($attributes ?? []);
@@ -135,7 +155,11 @@
 
     function wLinkDefault($link , $text = 'Edit' , $attributes = [])
 	{	
-		$icon = isset($attributes['icon']) ? "<i class='{$attributes['icon']}'> </i>" : null;
+        //for noble
+		$icon = isset($attributes['icon']) ? "<i data-feather='{$attributes['icon']}' style='width:15px'></i>" : "<i data-feather='arrow-left-circle' style='width:15px'></i>";
+        if(isset($attributes['icon'])) {
+            unset($attributes['icon']);
+        }
 		$attributes = is_null($attributes) ? $attributes : keypairtostr($attributes);
 		return <<<EOF
 			<a href="{$link}" style="text-decoration:underline" {$attributes}>{$icon} {$text}</a>
@@ -163,9 +187,23 @@
 
     
 
-    function wDivider()
+    function wDivider($size = '30')
     {
         return <<<EOF
-            <div style="margin-top:30px"> </div>
+            <div style="margin-top:{$size}px"> </div>
         EOF;
+    }
+
+    function wCatalogToStringToLink($tagString, $linkBase = '', $searchKey = '') {
+        $tagArray = explode(',', $tagString);
+        $html = '';
+        foreach($tagArray as $key => $row) {
+            if($key > 0)
+                $html .= ", ";
+            $html .= <<<EOF
+                <a href ='{$linkBase}/?searchBy={$searchKey}&keyword={$row}'>{$row}</a>
+            EOF;
+        }
+
+        echo $html;
     }

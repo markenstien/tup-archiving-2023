@@ -8,7 +8,7 @@
     <div class="card-body">
         <div class="row">
             <?php foreach($catalogs as $catalog) :?>
-                <div class="col-md-3 " style="border: 1px solid #000; padding:2px;border-radius:5px; margin-right:10px">
+                <div class="col-md-3 " style="padding:2px;border-radius:5px; margin-right:10px">
                     <div class="card">
                         <div class="card-body">
                             <h5>

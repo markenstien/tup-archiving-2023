@@ -19,4 +19,18 @@
             }
             return $retVal;
         } 
+
+        public function createVerifyUserCode($userId) {
+            $code = strtoupper(get_token_random_char(4));
+            $id = parent::store([
+                'meta_key' => 'USER_REGISTRATION_VERIFY',
+                'parent_id' => $userId,
+                'meta_value' => $code
+            ]);
+
+            $this->retVal['code'] = $code;
+            $this->retVal['id'] = $id;
+
+            return $id;
+        }
     }

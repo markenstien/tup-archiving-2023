@@ -4,14 +4,14 @@
 
     function wEmailHeader()
     {
-        $logo = $image = URL.DS.'public/logo.jpg';
+        $logo = wLogo();
 
         $COMPANY_NAME = COMPANY_NAME;
 
         $header = <<<EOF
             <div class="header" style="text-align: center;padding: 15px;">
                 <div class="text-center" style="text-align: center;">
-                    <img src="{$logo}" style="width:200px">
+                    {$logo}
                     <h3 style="margin: 10px 0px;">{$COMPANY_NAME}</h3>
                 </div>
             </div>
@@ -22,16 +22,17 @@
     
     function wEmailFooter()
     {
-        $logo = $image = URL.DS.'public/logo.jpg';
+        $logo = wLogo('wide');
 
         $COMPANY_NAME = COMPANY_NAME;
 
+        $year = date('Y');
         $footer = <<<EOF
             <div class="footer" style="text-align: center;padding: 15px;">
                 <h3 style="margin: 10px 0px;">{$COMPANY_NAME}</h3>
-                <div>
-                    <img src="{$logo}" style="width:150px">
-                </div>
+                <div>{$logo}</div>
+
+                <div style='margin-top:15px'>Copyright {$year}</div>
             </div>
         EOF;
 

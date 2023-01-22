@@ -1,11 +1,6 @@
 <?php
     define('SYSTEM_MODE' , $system['mode']);
-
     define('UI_THEME' , $ui['vendor']);
-
-    define('APP_NAME' , $system['app_name']);
-
-
     define('DB_PREFIX' , 'hr_');
 
     switch(SYSTEM_MODE)

@@ -1,45 +1,31 @@
-<?php build('content')?>
-	<div class="page-wrapper full-page">
-    <div class="page-content d-flex align-items-center justify-content-center">
-        <div class="row w-100 mx-0 auth-page">
-            <div class="col-md-8 col-xl-6 mx-auto">
-                <div class="card">
-                    <div class="row">
-        <div class="col-md-4 pe-md-0">
-          <img src="https://www.wptunnel.com/wp-content/uploads/2021/10/wptunnel-medical-wallpaper.jpg"
-          	style="width:100%">
-        </div>
-        <div class="col-md-8 ps-md-0">
-          <div class="auth-form-wrapper px-4 py-5">
-            <h5 class="text-muted fw-normal mb-4">Welcome back! Log in to your account.</h5>
-            <?php Flash::show()?>
-            <?php  __( $form->start() ); ?>
-              <div class="mb-3">
-                <?php __( $form->getCol('user_identification' , ['required' => true]) ); ?>
-              </div>
-              <div class="mb-3">
-                <?php __( $form->getCol('password') ); ?>
-              </div>
-              <!-- <div class="form-check mb-3">
-                <input type="checkbox" class="form-check-input" id="authCheck">
-                <label class="form-check-label" for="authCheck">
-                  Remember me
-                </label>
-              </div> -->
-              <div>
-                <?php __($form->get('submit')) ?>
-              </div>
-              <!-- <a href="<?php echo _route('auth:register')?>" class="d-block mt-3 text-muted">Not a user? Sign up</a> -->
-            <?php __( $form->end() )?>
-          </div>
-        </div>
-      </div>
+<?php build('content') ?>
+    <div class="container">
+        <div class="card">
+          <?php  __( $form->start() ); ?>
+            <div class="card-body">
+              <?php Flash::show()?>
+                <div class="text-center">
+                    <div class="mb-5"><?php echo wLogo()?></div>
+                    <h4>Register to TUP Archiving System</h4>
                 </div>
+                <?php echo wDivider(80)?>
+                <div class="col-md-5 mx-auto">
+                    <div class="form-group"><?php echo $form->getCol('email');?></div>
+                    <div class="form-group"><?php echo $form->getCol('password');?></div>
+                    <div class="form-group mt-3">
+                        <?php echo Form::submit('', 'Register')?>
+                    </div>
+
+                    <?php echo wDivider('20')?>
+                    <a href="#">Forgot password?</a> <?php echo wDivider('20')?>
+                    <label for="#">Don't have Account? <a href="<?php echo _route('auth:register')?> ">Register Here.</a></label>
+                </div>
+                <?php echo wDivider(80)?>
+                <?php echo wLogo('wide')?>
             </div>
+
+            <?php __( $form->end() )?>
         </div>
     </div>
-</div>
 <?php endbuild()?>
 <?php loadTo('tmp/base')?>
-
-
