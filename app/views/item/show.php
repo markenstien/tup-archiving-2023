@@ -5,9 +5,13 @@
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title"><?php echo $catalog->title?></h4>
-                     <?php echo wLinkDefault(_route('item:edit', $catalog->id),'Edit Catalog', [
-                        'icon' => 'edit'
-                    ])?>
+                     <?php
+                        if(isAdmin() || isEqual(whoIs('id'), $catalog->uploader_id)) {
+                            echo wLinkDefault(_route('item:edit', $catalog->id),'Edit Catalog', [
+                                'icon' => 'edit'
+                            ]);
+                        } 
+                     ?>
                     &nbsp;
                     &nbsp;
                     <?php echo wLinkDefault(_route('item:index', $catalog->id),'Return To catalogs')?>
@@ -51,14 +55,11 @@
                                         <?php endif?>
                                     </li>
                                     <li>Publishers :
-                                        <?php
-                                            foreach($catalogItems['publishers'] as $key => $publisher) {
-                                                if($key > 0) {
-                                                    echo " , ";
-                                                }
-                                                echo "<a href='#'>{$publisher}</a>";
-                                            }
-                                        ?>
+                                        <?php if(!empty($catalog->publishers)): ?>
+                                            <?php echo wCatalogToStringToLink($catalog->publishers, _route('item:index'), 'publishers')?>
+                                        <?php else:?>
+                                            None
+                                        <?php endif?>
                                     </li>
                                     <li>Uploader : <a href="#"><?php echo $catalog->uploader_name?></a></li>
                                     <li class="mt-3">
@@ -74,6 +75,8 @@
                     <div class="mt-3">
                         <h5>Description</h5>
                         <?php echo $catalog->description?>
+                        <?php echo wDivider()?>
+                        <small><strong>Reference </strong>: <?php echo $catalog->reference?></small>
                     </div>
 
                     <div class="mt-5">

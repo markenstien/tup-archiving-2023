@@ -16,7 +16,7 @@
                             </h5>
                             <small><?php echo $catalog->year?></small>
 
-                            <p><?php echo $catalog->brief?></p>
+                            <p><?php echo crop_words($catalog->brief, 50)?></p>
 
                             <div><small>(<?php echo $catalog->genre?>)</small></div>
                             <div><small><?php echo $catalog->tags?></small></div>

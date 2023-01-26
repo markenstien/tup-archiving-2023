@@ -67,6 +67,7 @@
 		'read'   => $controller.'/read',
 		'like'   => $controller.'/like',
 		'my-catalog' => $controller.'/myCatalog',
+		'catalogs'  => $controller. '/catalogs',
 		'add-attachment' => $controller .'/addAttachment'
 	];
 

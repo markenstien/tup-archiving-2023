@@ -64,7 +64,7 @@
                         /**
                          * view will only increase if the last view of user is after 10 hours
                          */
-                        if(timeDifference($instance->created_at, nowMilitary()) >= 10) {
+                        if(timeDifference($instance->created_at, nowMilitary()) >= 1) {
                             self::storeData($parentId, $metaKey, $metaValue, $userId);
                         }
                     } else {

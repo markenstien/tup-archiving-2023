@@ -1,85 +1,60 @@
 <?php build('content')?>
 
 <div class="row">
-	<div class="col-md-4 grid-margin stretch-card">
-		<div class="card">
-			<div class="card-body">
-			<div class="d-flex justify-content-between align-items-baseline">
-				<h6 class="card-title mb-0">Sales</h6>
-			</div>
-			<div class="row">
-				<div class="col-6 col-md-12 col-xl-5">
-					<h3 class="mb-2"><?php echo amountHTML($orderAmountTotal)?></h3>
-					<div class="d-flex align-items-baseline">
-						<p class="text-success">
-						<span>Within 30 days</span>
-						</p>
+	<div class="col-md-8">
+		<div class="row">
+			<div class="col-md-6 grid-margin">
+				<div class="card">
+					<div class="card-body">
+					<div class="d-flex justify-content-between align-items-baseline">
+						<h6 class="card-title mb-0">Total Catalogs</h6>
+					</div>
+					<div class="row">
+						<div class="col-6 col-md-12 col-xl-5">
+							<h3 class="mb-2"><?php echo $totalCatalog?></h3>
+							<div class="d-flex align-items-baseline"></div>
+						</div>
+					</div>
 					</div>
 				</div>
 			</div>
-			</div>
-		</div>
-	</div>
 
-	<div class="col-md-4 grid-margin stretch-card">
-		<div class="card">
-			<div class="card-body">
-			<div class="d-flex justify-content-between align-items-baseline">
-				<h6 class="card-title mb-0">Items</h6>
-			</div>
-			<div class="row">
-				<div class="col-6 col-md-12 col-xl-5">
-					<h3 class="mb-2"><?php echo $totalItem?></h3>
-					<div class="d-flex align-items-baseline">
-						<p class="text-success">
-						<span>Item Variants</span>
-						</p>
+			<div class="col-md-6 grid-margin">
+				<div class="card">
+					<div class="card-body">
+					<div class="d-flex justify-content-between align-items-baseline">
+						<h6 class="card-title mb-0">Total Users</h6>
+					</div>
+					<div class="row">
+						<div class="col-6 col-md-12 col-xl-5">
+							<h3 class="mb-2"><?php echo $totalUser?></h3>
+						</div>
+					</div>
 					</div>
 				</div>
 			</div>
-			</div>
 		</div>
+		<?php echo divider(40)?>
 	</div>
 
-	<div class="col-md-4 grid-margin stretch-card">
+	<div class="col-md-4 grid-margin">
 		<div class="card">
 			<div class="card-body">
 			<div class="d-flex justify-content-between align-items-baseline">
-				<h6 class="card-title mb-0">Staffs</h6>
+				<h6 class="card-title mb-0">Trends</h6>
 			</div>
-			<div class="row">
-				<div class="col-6 col-md-12 col-xl-5">
-					<h3 class="mb-2"><?php echo $totalUser?></h3>
-					<div class="d-flex align-items-baseline">
-						<p class="text-success">
-						<span>Active</span>
-						</p>
-					</div>
-				</div>
+			<?php if($trends) :?>
+				<ol>
+					<?php foreach($trends as $key => $row) :?>
+						<li><?php echo wCatalogToStringToLink($row->value, _route('item:index'), $row->category)?></li>
+					<?php endforeach?>
+				</ol>
 			</div>
-			</div>
+			<?php else:?>
+				<p>No Trends</p>
+			<?php endif?>
 		</div>
 	</div>
-</div>
-
-<div class="table-resonsive">
-	<table class="table table-bordered dataTable">
-		<thead>
-			<th>Item</th>
-			<th>Amount</th>
-			<th>Discount</th>
-		</thead>
-
-		<tbody>
-			<?php foreach($items as $key => $row) :?>
-				<tr>
-					<td><?php echo $row->item_name?></td>
-					<td><?php echo $row->sold_price?></td>
-					<td><?php echo $row->discount_price?></td>
-				</tr>
-			<?php endforeach?>
-		</tbody>
-	</table>
 </div>
 <?php endbuild()?>
 <?php loadTo()?>

@@ -64,7 +64,7 @@
     }
 
     function isAdmin() {
-        return isEqual(whoIs('user_type'), 'admin');
+        return isEqual(whoIs('user_type'), 'ADMINISTRATOR');
     }
 
     function isTeacher() {

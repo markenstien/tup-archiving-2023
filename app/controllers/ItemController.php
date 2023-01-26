@@ -3,9 +3,11 @@
     use Form\ItemCommentForm;
     use Form\ItemForm;
     use Services\CommonMetaService;
+    use Services\ItemService;
+    use Services\UserService;
 
     load(['ItemForm','ItemCommentForm'],FORMS);
-    load(['CommonMetaService'], SERVICES);
+    load(['CommonMetaService', 'ItemService'], SERVICES);
 
 
     class ItemController extends Controller
@@ -15,6 +17,7 @@
             parent::__construct();
             $this->model = model('ItemModel');
             $this->commentModel = model('ItemCommentModel');
+            $this->itemService = new ItemService();
 
             /**
              * CHANGE ATTACHMENT PATH
@@ -34,7 +37,8 @@
 
                 switch($searchBy) {
                     case 'tag':
-                        $this->data['catalogs'] = $this->model->getAll([
+                        $this->itemService->saveKeyword($keyword, 'tags');
+                        $catalogs = $this->model->getAll([
                             'where' => [
                                 'tags' => [
                                     'condition' => 'like',
@@ -45,7 +49,8 @@
                     break;
 
                     case 'genre' :
-                        $this->data['catalogs'] = $this->model->getAll([
+                        $this->itemService->saveKeyword($keyword, 'genre');
+                        $catalogs = $this->model->getAll([
                             'where' => [
                                 'genre' => [
                                     'condition' => 'like',
@@ -56,7 +61,8 @@
                     break;
 
                     case 'author' :
-                        $this->data['catalogs'] = $this->model->getAll([
+                        $this->itemService->saveKeyword($keyword, 'authors');
+                        $catalogs = $this->model->getAll([
                             'where' => [
                                 'authors' => [
                                     'condition' => 'like',
@@ -66,13 +72,25 @@
                         ]);
                     break;
 
+                    case 'publishers' :
+                        $this->itemService->saveKeyword($keyword, 'publishers');
+                        $catalogs = $this->model->getAll([
+                            'where' => [
+                                'publishers' => [
+                                    'condition' => 'like',
+                                    'value' => "%{$keyword}%"
+                                ],
+                            ]
+                        ]);
+                    break;
+
                     default:
                         $keyword = trim($req['keyword']);
-
+                        $this->itemService->saveKeyword($keyword);
                         if(substr($keyword, 0, 1) === "#") {
                             $keyword = substr($keyword, 1);
 
-                            $this->data['catalogs'] = $this->model->getAll([
+                            $catalogs = $this->model->getAll([
                                 'where' => [
                                     'tags' => [
                                         'condition' => 'like',
@@ -80,30 +98,166 @@
                                     ]
                                 ]
                             ]);
-                        } else {
-                            $this->data['catalogs'] = $this->model->getAll([
+                            
+                        } else 
+                        {
+                            $arrayKeyWord = explode('&;', $keyword);
+
+                            $genreKeyWord = $keyword;
+                            $authorKeyword =  $keyword;
+                            $publisherKeyword = $keyword;
+
+                            if($arrayKeyWord) {
+                                foreach($arrayKeyWord as $key => $row) {
+                                    if($key == 0) {
+                                        continue;
+                                    }
+
+                                    $toMatch = explode('=',$row);
+
+                                    if($toMatch > 0) {
+                                        if(isEqual($toMatch[0], ['publishers','publisher','pub'])) {
+                                            $publisherKeyword = $toMatch[1];
+                                        }
+
+                                        if(isEqual($toMatch[0], ['genre','genres','gen'])) {
+                                            $genreKeyWord = $toMatch[1];
+                                        }
+
+                                        if(isEqual($toMatch[0], ['authors','author','aut'])) {
+                                            $authorKeyword = $toMatch[1];
+                                        }
+                                    }
+                                }
+                                $mainKeyword = $arrayKeyWord[0];
+                            } else{
+                                $mainKeyword = $keyword;
+                            }
+
+                            $catalogs = $this->model->getAll([
                                 'where' => [
                                     'title' => [
                                         'condition' => 'like',
-                                        'value' => '%'.$keyword.'%',
+                                        'value' => '%'.$mainKeyword.'%',
                                         'concatinator' => 'OR'
-                                    ],
+                                    ]
+                                ]
+                            ]);
+
+                            $subResults = $this->model->getAll([
+                                'where' => [
                                     'genre' => [
                                         'condition' => 'like',
-                                        'value' => '%'.$keyword.'%',
+                                        'value' => '%'.$genreKeyWord.'%',
                                         'concatinator' => 'OR'
                                     ],
                                     'authors' => [
                                         'condition' => 'like',
-                                        'value' => '%'.$keyword.'%',
+                                        'value' => '%'.$authorKeyword.'%',
                                         'concatinator' => 'OR'
                                     ],
+
+                                    'publishers' => [
+                                        'condition' => 'like',
+                                        'value' => '%'.$publisherKeyword.'%',
+                                        'concatinator' => 'OR'
+                                    ]
                                 ]
                             ]);
+                            //1 result only and no sub results
+                            if(empty($subResults) && count($arrayKeyWord) < 2 && $catalogs) {
+                                $catalog = $catalogs[0];
+
+                                $subResults = $this->model->getAll([
+                                    'where' => [
+                                        'GROUP_CONDITION' => [
+                                            'genre' => [
+                                                'condition' => 'like',
+                                                'value' => '%'.$catalog->genre.'%',
+                                                'concatinator' => 'OR'
+                                            ],
+                                            'publishers' => [
+                                                'condition' => 'like',
+                                                'value' => '%'.$catalog->publishers.'%',
+                                                'concatinator' => 'OR'
+                                            ],
+                                        ],
+                                        'item.id' => [
+                                            'condition' => 'not equal',
+                                            'value' => $catalog->id
+                                        ]
+                                    ],
+
+                                    'order' => 'meta_view.total_count desc',
+                                    'limit' => '20'
+                                ]);
+                            }
+
+                            if($catalogs) 
+                            {
+                                $catalog = $catalogs[0];
+                                $catalogIds = [];
+
+                                if(!empty($subResults)) {
+                                    foreach($subResults as $key => $row) {
+                                        $catalogIds[] = $row->id;
+                                    }
+                                }
+
+                                $catalogIds[] = $catalog->id;
+                                $otherResults = $this->model->getAll([
+                                    'where' => [
+                                        'GROUP_CONDITION' => [
+                                            'genre' => [
+                                                'condition' => 'like',
+                                                'value' => '%'.$catalog->genre.'%',
+                                                'concatinator' => 'OR'
+                                            ],
+                                            'authors' => [
+                                                'condition' => 'like',
+                                                'value' => '%'.$catalog->authors.'%',
+                                                'concatinator' => 'OR'
+                                            ],
+                                        ],
+                                        'item.id' => [
+                                            'condition' => 'not in',
+                                            'value' => $catalogIds
+                                        ]
+                                    ],
+                                    
+                                    'order' => 'meta_view.total_count asc'
+                                ]);
+                            }
+                            
+                            $catalogs = array_merge($catalogs, $subResults);
+
+
+                            if(empty($catalogs) && empty($subResults)) {
+                                
+                                $possibleCatalogs = $this->model->getAll([
+                                    'where' => [
+                                        'description' => [
+                                                'condition' => 'like',
+                                                'value' => '%'.$mainKeyword.'%',
+                                                'concatinator' => 'OR'
+                                            ],
+                                            'brief' => [
+                                                'condition' => 'like',
+                                                'value' => '%'.$mainKeyword.'%',
+                                                'concatinator' => 'OR'
+                                            ],
+                                        ],
+
+                                        'order' => 'meta_view.total_count desc',
+                                        'limit' => '20'
+                                    ]);
+                            }
                         }
                 }
-            } else {
 
+                $this->data['catalogs'] = $catalogs ?? [];
+                $this->data['otherResults'] = $otherResults ?? [];
+                $this->data['possibleCatalogs'] = $possibleCatalogs ?? [];
             }
             return $this->view('item/index', $this->data);
         }
@@ -294,5 +448,18 @@
             $this->data['id'] = unseal($req['id']);
             $this->data['type'] = $req['type'];
             return $this->view('item/add_attachment', $this->data);
+        }
+
+        public function catalogs() {
+            if(!isEqual($this->data['whoIs']->user_type, UserService::ADMIN)) {
+                Flash::set("You are not authorized to access that page", 'warning');
+                return redirect(_route('item:my-catalog'));
+            }
+
+            $this->data['catalogs'] = $this->model->getAll([
+                'order' => 'id desc'
+            ]);
+
+            return $this->view('item/catalogs', $this->data);
         }
     }

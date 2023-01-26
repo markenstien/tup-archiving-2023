@@ -23,20 +23,16 @@
             if(empty($itemData['authors'])) {
                 $this->addError("Authors must not be empty");
             }
+            
             if(empty($itemData['publishers'])) {
                 $this->addError("Publishers should not be empty");
             }
-            
-            // $authors = $this->checkUsers($itemData['authors']);
-            // $publishers = $this->checkUsers($itemData['publishers']);
+
             $_fillables = parent::getFillablesOnly($itemData);
-            
-
             if(is_null($id)) {
+                $_fillables['uploader_id'] = whoIs('id');
                 if(empty($itemData['reference'])) {
-                    $_fillables['uploader_id'] = whoIs('id');
                     $_fillables['reference'] = random_number(12);
-
                     if(!$this->primaryValidation($_fillables))
                         return false;
                 }
@@ -44,8 +40,20 @@
                 if(!$this->primaryValidation($_fillables, $this->get($id)))
                     return false;
             }
-            
-            
+
+            $clean = [
+                'title',
+                'genre',
+                'publishers',
+                'authors',
+                'year'
+            ];
+
+            foreach($clean as $key => $row) {
+                if(isset($_fillables[$row])) {
+                    $_fillables[$row] = str_replace('"', '', $_fillables[$row]);
+                }
+            }
 
             if(is_null($id)) {
                 return parent::store($_fillables);

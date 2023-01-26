@@ -200,9 +200,18 @@
         foreach($tagArray as $key => $row) {
             if($key > 0)
                 $html .= ", ";
-            $html .= <<<EOF
-                <a href ='{$linkBase}/?searchBy={$searchKey}&keyword={$row}'>{$row}</a>
-            EOF;
+
+            if($searchKey == 'tags') {
+                $row = trim($row);
+                $url ="{$linkBase}?keyword=%23{$row}";
+                $html .= <<<EOF
+                    <a href ='{$url}'>#{$row}</a>
+                EOF;
+            } else {
+                $html .= <<<EOF
+                    <a href ='{$linkBase}/?searchBy={$searchKey}&keyword={$row}'>{$row}</a>
+                EOF;
+            }
         }
 
         echo $html;

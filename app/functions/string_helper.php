@@ -113,3 +113,25 @@
     function random_color() {
         return random_color_part() . random_color_part() . random_color_part();
     }
+
+
+    function crop_char ($prefix, $str, $position = null) {
+        //remove from front and end
+        if(is_null($position)) {
+            if (substr($str, 0, strlen($prefix)) == $prefix) {
+                $str = substr($str, strlen($prefix));
+            } 
+            if (substr($str, strlen($str), strlen($prefix)) == $prefix) {
+                $str = substr($str, strlen($prefix));
+
+                
+            } 
+
+            
+        } else {
+            if (substr($str, $position, strlen($prefix)) == $prefix) {
+                $str = substr($str, strlen($prefix));
+            } 
+        }
+        return $str;
+    }

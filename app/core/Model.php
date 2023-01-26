@@ -315,7 +315,12 @@
 		{	
 			if( $counter > 0)
 				$WHERE .= " {$condition_operation_concatinator} "; //add space
-
+			
+			if($key == 'GROUP_CONDITION') {
+				$WHERE .= '('.$this->conditionConvert($param_value) . ')';
+				$counter++;
+				continue;
+			}
 			/*should have a condition*/
 			if(is_array($param_value) && isset($param_value['condition']) ) 
 			{
@@ -418,7 +423,6 @@
 
 			$counter++;
 		}
-
 		return $WHERE;
 	}
 
