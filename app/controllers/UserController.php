@@ -6,8 +6,8 @@
 
 		public function __construct()
 		{
+			_requireAuth();
 			parent::__construct();
-
 			$this->model = model('UserModel');
 
 			$this->data['page_title'] = ' Users ';

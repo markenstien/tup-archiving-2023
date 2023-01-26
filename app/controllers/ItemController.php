@@ -18,6 +18,7 @@
             $this->model = model('ItemModel');
             $this->commentModel = model('ItemCommentModel');
             $this->itemService = new ItemService();
+            _requireAuth();
 
             /**
              * CHANGE ATTACHMENT PATH
