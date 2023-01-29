@@ -203,7 +203,7 @@
 
             if($searchKey == 'tags') {
                 $row = trim($row);
-                $url ="{$linkBase}?keyword=%23{$row}";
+                $url ="{$linkBase}?keyword={$row}";
                 $html .= <<<EOF
                     <a href ='{$url}'>#{$row}</a>
                 EOF;
@@ -213,6 +213,6 @@
                 EOF;
             }
         }
-
+        
         echo $html;
     }

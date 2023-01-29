@@ -10,11 +10,28 @@
                         ]);
                     ?> 
                         <h4>Your Search Starts Here..</h4>
-                        <div class="form-group"><?php Form::text('keyword', '', ['class' => 'form-control','autocomplete'=>'off'])?></div>
+                        <div class="form-group"><?php Form::text('keyword', '', ['class' => 'form-control','autocomplete'=>'off' , 'required' => true, 'placeholder' => 'search by tags : #tagname'])?></div>
                         <div class="form-group text-center">
                             <?php Form::submit('btn_search','Search By Keyword', ['class' => 'btn btn-primary btn-lg',])?>
                         </div>
                     <?php Form::close()?>
+                </div>
+
+                <div class="card-footer">
+                    <div class="mt-5">
+                        <div class="text-center">
+                            <a href="#">How to use Advance Search</a>
+                        </div>
+
+                        <ul>
+                            <li>Search by tags : '<strong>#</strong>keyword'</li>
+                            <li>
+                                Advance Search  use '&;' 
+                                <div>Example : Search by keyword and year</div>
+                                <div>Thesis&;<strong>year</strong>=2020&;genre=tech</div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -29,7 +46,7 @@
                     ?>
                     <div class="row">
                         <div class="col-md-9">
-                            <div class="form-group"><?php Form::text('keyword', '', ['class' => 'form-control','autocomplete'=>'off'])?></div>
+                            <div class="form-group"><?php Form::text('keyword', $_GET['keyword'] ?? '', ['class' => 'form-control','autocomplete'=>'off' , 'required' => true, 'placeholder' => 'search by tags : #tagname'])?></div>
                         </div>
                         <div class="col-md-3">
                             <?php Form::submit('btn_search','Search By Keyword', ['class' => 'btn btn-primary btn-sm',])?>

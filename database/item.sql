@@ -16,3 +16,14 @@ create table items(
     created_at timestamp DEFAULT now(),
     updated_at timestamp DEFAULT now()
 );
+
+
+alter table items
+    add column qr_path text,
+    add column qr_link text,
+    add column qr_value text;
+
+
+qr_path
+qr_link
+qr_value

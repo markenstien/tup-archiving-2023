@@ -4,10 +4,11 @@
     use Form\ItemForm;
     use Services\CommonMetaService;
     use Services\ItemService;
+    use Services\QRTokenService;
     use Services\UserService;
 
     load(['ItemForm','ItemCommentForm'],FORMS);
-    load(['CommonMetaService', 'ItemService'], SERVICES);
+    load(['CommonMetaService', 'ItemService', 'QRTokenService', 'UserService'], SERVICES);
 
 
     class ItemController extends Controller
@@ -45,7 +46,9 @@
                                     'condition' => 'like',
                                     'value' => "%{$keyword}%"
                                 ],
-                            ]
+                            ],
+
+                            'order' => 'view_total desc'
                         ]);
                     break;
 
@@ -57,7 +60,8 @@
                                     'condition' => 'like',
                                     'value' => "%{$keyword}%"
                                 ],
-                            ]
+                            ],
+                            'order' => 'view_total desc'
                         ]);
                     break;
 
@@ -69,7 +73,8 @@
                                     'condition' => 'like',
                                     'value' => "%{$keyword}%"
                                 ],
-                            ]
+                            ],
+                            'order' => 'view_total desc'
                         ]);
                     break;
 
@@ -81,7 +86,8 @@
                                     'condition' => 'like',
                                     'value' => "%{$keyword}%"
                                 ],
-                            ]
+                            ],
+                            'order' => 'view_total desc'
                         ]);
                     break;
 
@@ -97,18 +103,58 @@
                                         'condition' => 'like',
                                         'value' => '%'.$keyword .'%'
                                     ]
-                                ]
+                                    ],
+                                'order' => 'view_total desc'
                             ]);
                             
                         } else 
                         {
+                            $isSpecificSearch = false;
                             $arrayKeyWord = explode('&;', $keyword);
 
                             $genreKeyWord = $keyword;
                             $authorKeyword =  $keyword;
                             $publisherKeyword = $keyword;
+                            $year = $keyword;
 
                             if($arrayKeyWord) {
+                                if(empty($arrayKeyWord[0])) {
+                                    $searchSpecific = $arrayKeyWord;
+                                    $searchSpecific = array_splice($searchSpecific,1);
+                                    $condition = [
+                                        'where' => [],
+                                        'order' => 'view_total desc'
+                                    ];
+
+                                    foreach($searchSpecific as $key => $row) {
+                                        $toMatch = explode('=',$row);
+                                        $condition['where'][$toMatch[0]] = [
+                                            'condition' => 'like',
+                                            'value' => '%'.$toMatch[1].'%',
+                                                'concatinator' => 'OR'
+                                        ];
+                                    }
+
+                                    $catalogs = $this->model->getAll($condition);
+                                    $isSpecificSearch = true;
+                                }
+                                $mainKeyword = $arrayKeyWord[0];
+                            } else{
+                                $mainKeyword = $keyword;
+                            }
+                            
+                            if(!$isSpecificSearch) {
+                                $catalogs = $this->model->getAll([
+                                    'where' => [
+                                        'title' => [
+                                            'condition' => 'like',
+                                            'value' => '%'.$mainKeyword.'%',
+                                            'concatinator' => 'OR'
+                                        ]
+                                    ],
+                                    'order' => 'view_total desc'
+                                ]);
+
                                 foreach($arrayKeyWord as $key => $row) {
                                     if($key == 0) {
                                         continue;
@@ -128,23 +174,12 @@
                                         if(isEqual($toMatch[0], ['authors','author','aut'])) {
                                             $authorKeyword = $toMatch[1];
                                         }
+                                        if(isEqual($toMatch[0], ['years','year','yr'])) {
+                                            $year = $toMatch[1];
+                                        }
                                     }
                                 }
-                                $mainKeyword = $arrayKeyWord[0];
-                            } else{
-                                $mainKeyword = $keyword;
-                            }
-
-                            $catalogs = $this->model->getAll([
-                                'where' => [
-                                    'title' => [
-                                        'condition' => 'like',
-                                        'value' => '%'.$mainKeyword.'%',
-                                        'concatinator' => 'OR'
-                                    ]
-                                ]
-                            ]);
-
+                            }   
                             $subResults = $this->model->getAll([
                                 'where' => [
                                     'genre' => [
@@ -162,8 +197,15 @@
                                         'condition' => 'like',
                                         'value' => '%'.$publisherKeyword.'%',
                                         'concatinator' => 'OR'
-                                    ]
-                                ]
+                                    ],
+
+                                    'year' => [
+                                        'condition' => 'like',
+                                        'value' => '%'.$publisherKeyword.'%',
+                                        'concatinator' => 'OR'
+                                    ],
+                                ],
+                                'order' => 'view_total desc'
                             ]);
                             //1 result only and no sub results
                             if(empty($subResults) && count($arrayKeyWord) < 2 && $catalogs) {
@@ -266,13 +308,29 @@
         public function create() {
             if(isSubmitted()) {
                 $post = request()->posts();
-
                 $catalogId = $this->model->createOrUpdate($post);
-
                 if(!$catalogId) {
                     Flash::set($this->model->getErrorString(), 'danger');
                     return request()->return();
                 }
+
+                $qrValue = URL.DS._route('item:show', $catalogId, [
+					'tokenID' => seal($catalogId)
+				]);
+
+				$qrName = seal(random_number(15).$catalogId);
+				$QRCODE = QRTokenService::createIMAGE([
+					'qr_name' => $qrName,
+					'path_upload' => PATH_UPLOAD.DS.'catalogs'.DS.'qr_codes',
+					'image_link'  => GET_PATH_UPLOAD.'/'.'catalogs/qr_codes',
+					'qr_value' => $qrValue 
+				]);
+
+				$this->model->update([
+                    'qr_path' => $QRCODE['qr_path'],
+                    'qr_link' => $QRCODE['qr_link'],
+                    'qr_value' => $QRCODE['qr_value'],
+                ], $catalogId);
 
                 if(!upload_empty('pdf_file')) {
                     $this->_attachmentModel->upload([

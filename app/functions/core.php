@@ -26,9 +26,13 @@
 
     function _requireAuth()
     {
-        if( ! whoIs() ){
+        if(!whoIs()){
+            $lastPage = request()->url() ?? 'na';
+
             Flash::set("You must have an account to access this page." , 'warning');
-            return redirect( _route('auth:login') );
+            return redirect( _route('auth:login', null, [
+                'lastPage' => seal($lastPage)
+            ]));
         }
     }
 

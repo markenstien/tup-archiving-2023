@@ -49,7 +49,6 @@ License: For each use you must have a valid license purchased only from above li
 </head>
 <body>
 	<div class="main-wrapper">
-
 		<!-- partial:partials/_sidebar.html -->
 		<?php grab('tmp/inc/navigation')?>
 		<div class="page-wrapper">

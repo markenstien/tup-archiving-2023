@@ -15,7 +15,10 @@
             'genre',
             'year',
             'publishers',
-            'authors'
+            'authors',
+            'qr_link',
+            'qr_path',
+            'qr_value'
         ];
 
         public function createOrUpdate($itemData, $id = null) {
@@ -224,12 +227,22 @@
                     'value' => parent::conditionConvert([
                         'genre' => [
                             'condition' => 'like',
-                            'value' => '%'.crop_string($catalog->genre, strlen($catalog->genre) - (strlen($catalog->genre) / 3), null).'%',
+                            'value' => '%'.$catalog->genre.'__%',
                             'concatinator' => 'OR'
                         ],
                         'tags' => [
                             'condition' => 'like',
-                            'value' => '%'.crop_string($catalog->tags, strlen($catalog->tags) - (strlen($catalog->tags) / 3), null).'%',
+                            'value' => '%'.$catalog->tags.'%',
+                            'concatinator' => 'OR'
+                        ],
+                        'publishers' => [
+                            'condition' => 'like',
+                            'value' => '%'. str_escape($catalog->publishers) .'%',
+                            'concatinator' => 'OR'
+                        ],
+                        'authors' => [
+                            'condition' => 'like',
+                            'value' => '%'.$catalog->authors.'%',
                             'concatinator' => 'OR'
                         ]
                     ]),

@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
 
 :root {
   --main-color: #850000;
@@ -10,11 +11,27 @@
   --color-base:  #F5F0F0;
 }
 
-/* body
+
+.page-content {
+	font-family: 'Nanum Gothic', sans-serif !important;
+}
+
+.page-content
 {
-	background: var(--color-base);
-	font-family: 'Montserrat', 'Ubuntu' ,sans-serif;
-} */
+	/* background: linear-gradient(
+		rgba(0, 0, 0, 0.3), 
+		rgba(0, 0, 0, 0.3)
+	  ), url("/uploads/main/logo_wide.jpg");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size:auto;
+	background-position: center; */
+	/* font-family: 'Montserrat', 'Ubuntu' ,sans-serif; */
+
+	/* background: rgb(205,200,168);
+	background: linear-gradient(90deg, rgba(205,200,168,1) 0%, rgba(210,18,46,1) 44%, rgba(120,232,255,1) 100%); */
+}
+
 
 .table{
 	color: #000 !important;

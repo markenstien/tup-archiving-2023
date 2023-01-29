@@ -78,6 +78,7 @@
 
 		public function login()
 		{
+			$req = request()->inputs();
 			if(isSubmitted())
 			{
 				$post = request()->posts();
@@ -92,6 +93,14 @@
 					Flash::set( "Welcome Back !" . auth('firstname'));
 				}
 
+				$lastPage = $req['lastPage'] ?? '';
+
+				if($lastPage) {
+					$lastPage = unseal($lastPage);
+					if($lastPage != 'na') {
+						return redirect($lastPage);
+					}
+				}
 				return redirect('DashboardController');
 			}
 

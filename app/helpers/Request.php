@@ -139,9 +139,9 @@
 		}
 
 		public function return(){
-      FormSession::getInstance();
-			header("Location:".$this->referrer());
-    }
+			FormSession::getInstance();
+				header("Location:".$this->referrer());
+			}
 
         public function returnWithVal($params)
         {

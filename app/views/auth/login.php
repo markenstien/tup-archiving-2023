@@ -1,7 +1,7 @@
 <?php build('content') ?>
     <div class="container">
         <div class="card">
-          <?php  __( $form->start() ); ?>
+          <?php Form::open(['method' => 'post'])?>
             <div class="card-body">
               <?php Flash::show()?>
                 <div class="text-center">

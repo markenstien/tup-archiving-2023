@@ -5,13 +5,13 @@
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title"><?php echo $catalog->title?></h4>
-                     <?php
+                    <?php
                         if(isAdmin() || isEqual(whoIs('id'), $catalog->uploader_id)) {
                             echo wLinkDefault(_route('item:edit', $catalog->id),'Edit Catalog', [
                                 'icon' => 'edit'
                             ]);
                         } 
-                     ?>
+                    ?>
                     &nbsp;
                     &nbsp;
                     <?php echo wLinkDefault(_route('item:index', $catalog->id),'Return To catalogs')?>
@@ -28,7 +28,6 @@
                         <div>
                             <h5 class="mb-2">Sypnosis</h5>
                             <p><?php echo $catalog->brief?></p>
-
                             <div class="mt-3">
                                 <ul class="list-unstyled">
                                     <li>Year : <?php echo $catalog->year?></li>
@@ -74,6 +73,7 @@
                     </div>
                     <div class="mt-3">
                         <h5>Description</h5>
+                        <img src="<?php echo $catalog->qr_link?>" alt="" style="display:block;" class="mt-3 mb-2">
                         <?php echo $catalog->description?>
                         <?php echo wDivider()?>
                         <small><strong>Reference </strong>: <?php echo $catalog->reference?></small>
@@ -126,7 +126,7 @@
                     <ul class="list-group">
                         <?php foreach($relatedCatalogs as $key => $row) :?>
                             <li class="list-group-item">
-                                <a href="#"><?php echo $row->title?></a>
+                                <a href="<?php echo _route('item:show', $row->id)?>"><?php echo $row->title?></a>
                                 <div><strong><small><?php echo $row->genre?></small></strong> <small><?php echo $row->tags?></small></div>
                                 <small><?php echo $row->authors?></small>
                             </li>
