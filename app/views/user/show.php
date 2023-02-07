@@ -11,45 +11,105 @@
 				</div>
 
 				<div class="card-body">
-					<h4>Personal Information</h4>
-					<div>
-						<img src="<?php echo $user->profile?>" style="width: 150px;">
-					</div>
-					<div>
-						<label class="tx-11">User Identification</label>
-						<p><span class="badge bg-warning"><?php echo $user->user_identification?></span></p>
-					</div>
+					<div><img src="<?php echo $user->profile?>" style="width: 150px;"></div>
+					<span class="badge badge-primary">USERID : #<?php echo $user->user_identification?></span>
+					<div class="table-responsive">
+						<table class="table table-bordered">
+							<tr>
+								<td style="width:35%">Name</td>
+								<td><?php echo $user->lastname . ',' . $user->firstname?></td>
+							</tr>
+							<tr>
+								<td style="width:35%">Gender</td>
+								<td><?php echo $user->gender?></td>
+							</tr>
+							<tr>
+								<td style="width:35%">Email</td>
+								<td><?php echo $user->email?></td>
+							</tr>
+							<?php if(!empty($user->phone)) :?>
+							<tr>
+								<td style="width:35%">Phone</td>
+								<td><?php echo $user->phone?></td>
+							</tr>
+							<?php endif?>
 
-					<div>
-						<label class="tx-11">Username</label>
-						<p><?php echo $user->username?></p>
+							<?php if(!empty($user->phone)) :?>
+							<tr>
+								<td style="width:35%">Address</td>
+								<td><?php echo $user->address?></td>
+							</tr>
+							<?php endif?>
+						</table>
 					</div>
-					
-					<div>
-						<label class="tx-11">Name</label>
-						<p><?php echo $user->lastname . ',' . $user->firstname?></p>
-					</div>
-					<div>
-						<label class="tx-11">Gender</label>
-						<p><?php echo $user->gender?></p>
-					</div>
-					<div>
-						<label class="tx-11">Email And Mobile Number</label>
-						<p><?php echo $user->email?></p>
-						<p><?php echo $user->phone?></p>
-
-						<!-- <span><a href="<?php echo _route('user:sendCredential' , $user->id)?>" title="Click to send the credential to the user">Send Credentials to User :</a><?php echo $user->email?></span> -->
-					</div>
-					<div>
-						<label class="tx-11">Address</label>
-						<p><?php echo "$user->address"?></p>
-					</div>
-					<hr>
-
 				</div>
 			</div>	
 		</div>
 
+		<div class="col-md-8">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">User Details</h4>
+				</div>
+
+				<div class="card-body">
+					<div class="row">
+						<div class="col-md-4">
+							<div class="card">
+								<div class="card-body">
+									<?php if(!$userDetail['favGenre']) :?>
+										<h4>No Data Available</h4>
+									<?php else:?>
+										<h4><?php echo $userDetail['favGenre']?></h4>
+									<?php endif?>
+									<label for="#">Favorite Genre</label>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-4">
+							<div class="card">
+								<div class="card-body">
+									<h4>No Data Available</h4>
+									<label for="#">Favorite Topic</label>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-4">
+							<div class="card">
+								<div class="card-body">
+									<h4>No Data Available</h4>
+									<label for="#">Books Red</label>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row mt-2">
+						<div class="col-md-4">
+							<div class="card">
+								<div class="card-body">
+									<h4>No Data Available</h4>
+									<label for="#">Favorite Author</label>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-8">
+							<div class="card">
+								<div class="card-body">
+									<h4>Interests</h4>
+									<p>
+										lorem ipsum
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 
 

@@ -19,12 +19,14 @@
                 <span class="link-title">Dashboard</span>
             </a>
         </li>
+        <?php if(isAdmin()) :?>
         <li class="nav-item">
             <a href="<?php echo _route('user:index')?>" class="nav-link">
                 <i class="link-icon" data-feather="message-square"></i>
                 <span class="link-title">Users</span>
             </a>
         </li>
+        <?php endif?>
 
         <li class="nav-item">
             <a href="<?php echo _route('item:create')?>" class="nav-link">

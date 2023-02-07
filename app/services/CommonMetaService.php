@@ -10,6 +10,7 @@
 
         public static $model = null;
         public static $message = '';
+        
         public static function addRecord($parentId, $metaKey, $metaValue, $userId = null) {
             $retVal = '';
             if(is_null(self::$model)) {

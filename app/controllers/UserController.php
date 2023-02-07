@@ -1,6 +1,9 @@
 <?php 
 	load(['UserForm'] , APPROOT.DS.'form');
+	load(['BehaviorService'], SERVICES);
+
 	use Form\UserForm;
+	use Services\BehaviorService;
 	class UserController extends Controller
 	{
 
@@ -12,6 +15,7 @@
 
 			$this->data['page_title'] = ' Users ';
 			$this->data['user_form'] = new UserForm();
+			$this->data['behaviorService'] = new BehaviorService();
 		}
 
 		public function index()
@@ -103,6 +107,9 @@
 
 		public function show($id)
 		{
+			$behaviorService = $this->data['behaviorService'];
+			$favGenre = $behaviorService->getFavoriteGenre();
+
 			$user = $this->model->get($id);
 
 			if(!$user) {
@@ -111,6 +118,9 @@
 			}
 
 			$this->data['user'] = $user;
+			$this->data['userDetail'] = [
+				'favGenre' => $favGenre
+			];
 			
 			return $this->view('user/show' , $this->data);
 		}
