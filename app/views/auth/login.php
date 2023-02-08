@@ -13,7 +13,7 @@
                     <div class="form-group"><?php echo $form->getCol('email');?></div>
                     <div class="form-group"><?php echo $form->getCol('password');?></div>
                     <div class="form-group mt-3">
-                        <?php echo Form::submit('', 'Register')?>
+                        <?php echo Form::submit('', 'Login')?>
                     </div>
 
                     <?php echo wDivider('20')?>
