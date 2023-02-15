@@ -18,6 +18,7 @@
             parent::__construct();
             $this->model = model('ItemModel');
             $this->commentModel = model('ItemCommentModel');
+            $this->category = model('CategoryModel');
             $this->itemService = new ItemService();
             _requireAuth();
 
@@ -375,8 +376,43 @@
                 'name' => 'id',
                 'value' => $catalog->id
             ]);
+
+            $category = $this->category->get($catalog->category_id);
+
+            if($category) {
+                if($category->parent_id) {
+                    $categoryParent = $this->category->get($category->parent_id);
+                    $form->setValue('category_id_parent', $categoryParent->id);
+    
+                    $categories = $this->category->all([
+                        'cat.active' => true,
+                        'cat.parent_id' => $category->parent_id
+                    ],'cat.name asc');
+    
+                    $categories = arr_layout_keypair($categories, ['id', 'category@name'], null, ' - ');
+    
+                    $form->add([
+                        'type' => 'select',
+                        'name' => 'category_id',
+                        'options' => [
+                            'option_values' => $categories
+                        ],
+                        'attributes' => [
+                            'id' => 'category_id'
+                        ],
+                        'class' => 'form-control',
+                        'value' => $category->id
+                    ]);
+                }
+    
+                $form->setValue('category_id', $categoryParent->id);
+            }
             $form->setValueObject($catalog);
+
             $this->data['catalog'] = $catalog;
+            $this->data['form'] = $form;
+
+            $this->data['category_id'] = isset($categoryParent);
             
 
             return $this->view('item/edit', $this->data);

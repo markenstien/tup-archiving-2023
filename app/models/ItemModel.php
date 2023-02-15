@@ -170,6 +170,7 @@
 
             $this->db->query(
                 "SELECT item.*, concat(user.firstname , ' ',user.lastname) as uploader_name,
+                    ifnull(category.name, 'no category') as category_name,
                     meta_read.total_count as read_total,
                     meta_like.total_count as like_total,
                     meta_view.total_count as view_total
@@ -199,7 +200,9 @@
                             WHERE meta_name = '{$catalogRead}'
                     ) as meta_read
                     ON meta_read.parent_id = item.id
-
+                    
+                    LEFT JOIN categories as category
+                    ON category.id = item.category_id
                     {$where}{$order}{$limit}"
             );
 

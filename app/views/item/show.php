@@ -4,7 +4,14 @@
         <div class="col-md-5">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title"><?php echo $catalog->title?></h4>
+                    <div>
+                        <h4 class="card-title" style="display:inline-block"><?php echo $catalog->title?></h4>
+                        <?php if($catalog->category_name) :?>
+                            <span class="badge bg-primary">
+                                <?php echo $catalog->category_name?>
+                            </span>
+                        <?php endif?>
+                    </div>
                     <?php
                         if(isAdmin() || isEqual(whoIs('id'), $catalog->uploader_id)) {
                             echo wLinkDefault(_route('item:edit', $catalog->id),'Edit Catalog', [
