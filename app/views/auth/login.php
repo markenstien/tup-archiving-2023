@@ -1,31 +1,42 @@
 <?php build('content') ?>
-    <div class="container">
+    <div class="col-sm-12 col-md-8 mx-auto">
         <div class="card">
-          <?php Form::open(['method' => 'post'])?>
             <div class="card-body">
-              <?php Flash::show()?>
-                <div class="text-center">
-                    <div class="mb-5"><?php echo wLogo()?></div>
-                    <h4>Register to TUP Archiving System</h4>
-                </div>
-                <?php echo wDivider(80)?>
-                <div class="col-md-5 mx-auto">
-                    <div class="form-group"><?php echo $form->getCol('email');?></div>
-                    <div class="form-group"><?php echo $form->getCol('password');?></div>
-                    <div class="form-group mt-3">
-                        <?php echo Form::submit('', 'Login')?>
+                <div style="display:flex; flex-direction:row; align-items: center;">
+                    <div style="flex:1; padding:20px" id="logoForBigScreen">
+                        <div class="text-center">
+                            <div class="mb-5"><?php echo wLogo('main', ['height' => 150 , 'width' => 150])?></div>
+                            <h4>Technological University of the Philippines - Manila</h4>
+                            <p>Ayala Boulevard, Ermita Manila www.tup.edu.ph</p>
+                        </div>
                     </div>
 
-                    <?php echo wDivider('20')?>
-                    <a href="#">Forgot password?</a> <?php echo wDivider('20')?>
-                    <label for="#">Don't have Account? <a href="<?php echo _route('auth:register')?>">Register Here.</a></label>
-                </div>
-                <?php echo wDivider(80)?>
-                <?php echo wLogo('wide')?>
-            </div>
+                    <div style="flex:1">
+                        <?php Form::open(['method' => 'post'])?>
+                            <?php Flash::show()?>
+                            <?php echo wDivider(80)?>
+                                <h4>Welcome To TUP Archive!</h4>
+                                <div class="form-group"><?php echo $form->getCol('email');?></div>
+                                <div class="form-group"><?php echo $form->getCol('password');?></div>
+                                <div class="form-group mt-3">
+                                    <?php echo Form::submit('', 'Login')?>
+                                </div>
 
-            <?php __( $form->end() )?>
+                                <?php echo wDivider('20')?>
+                                <a href="#">Forgot password?</a> <?php echo wDivider('20')?>
+                                <label for="#">Don't have Account? <a href="<?php echo _route('auth:register')?>">Register Here.</a></label>
+                            <?php echo wDivider(80)?>
+                        <?php __( $form->end() )?>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+<?php endbuild()?>
+
+<?php build('styles')?>
+    <style>
+        
+    </style>
 <?php endbuild()?>
 <?php loadTo('tmp/base')?>

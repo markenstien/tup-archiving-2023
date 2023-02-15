@@ -49,6 +49,13 @@
                     <span class="link-title">Catalogs</span>
                 </a>
             </li>
+
+            <li class="nav-item">
+                <a href="<?php echo _route('category:index')?>" class="nav-link">
+                    <i class="link-icon" data-feather="message-square"></i>
+                    <span class="link-title">Category</span>
+                </a>
+            </li>
         <?php endif?>
 
         <li class="nav-item">

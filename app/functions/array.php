@@ -1,7 +1,7 @@
 <?php 
     
    
-    function arr_layout_keypair($array , $key , $value = null)
+    function arr_layout_keypair($array , $key , $value = null, $separator = ' ')
     {
         $keyPair = [];
 
@@ -43,8 +43,8 @@
                             $addField = trim($val->$field);
 
                             if(!empty($addField)) {
-                                $textContent .= trim($val->$field);
-                                $textContent .= ' ';
+                                $textContent .= trim($val->$field); 
+                                 $textContent .= $separator;
                             }
                             
                         }

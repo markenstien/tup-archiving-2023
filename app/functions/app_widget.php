@@ -1,12 +1,12 @@
 <?php   
 
-    function wLogo($type = 'main') {
+    function wLogo($type = 'main', $size = ['height' => '70', 'width' => '70']) {
         $source = URL.DS.'uploads/main/';
         if($type == 'main') {
             $source = $source.= 'logo_main.png';
             return <<<EOF
                 <div>
-                    <img src= '{$source}' style='height:70px;width:70px'/>
+                    <img src= '{$source}' style='height:{$size['height']}px;width:{$size['width']}px'/>
                 </div>
             EOF;
         } else {

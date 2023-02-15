@@ -18,11 +18,28 @@
             'authors',
             'qr_link',
             'qr_path',
-            'qr_value'
+            'qr_value',
+            'category_id'
         ];
 
-        public function createOrUpdate($itemData, $id = null) {
+        public function createOrUpdate($itemData, $id = null) 
+        {
+            $this->categoryModel = model('CategoryModel');
             
+            $category = $this->categoryModel->get($itemData['category_id_parent']);
+            //this means that this category is parent
+            if(!$category->parent_id) {
+                //then category_id must not be empty
+                if(empty($itemData['category_id'])) {
+                    $this->addError("Category id must not be empty!");
+                    return false;
+                } else {
+                    $itemData['category_id_parent'] = $itemData['category_id'];
+                }
+            } else {
+                $itemData['category_id'] = $itemData['category_id_parent'];
+            }
+
             if(empty($itemData['authors'])) {
                 $this->addError("Authors must not be empty");
             }
@@ -32,6 +49,7 @@
             }
 
             $_fillables = parent::getFillablesOnly($itemData);
+            
             if(is_null($id)) {
                 $_fillables['uploader_id'] = whoIs('id');
                 if(empty($itemData['reference'])) {

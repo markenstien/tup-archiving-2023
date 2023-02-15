@@ -44,6 +44,35 @@ License: For each use you must have a valid license purchased only from above li
   <!-- <link rel="shortcut icon" href="<?php echo _path_tmp('assets/images/favicon.png')?>" /> -->
   <?php echo produce('headers')?>
   <?php echo produce('styles')?>
+  <style>
+    .main-wrapper
+    {
+      background: url("/uploads/main/background_main.jpg");
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size:cover;
+      background-position: center;
+
+      padding: 150px;
+
+      min-height: 100vh;
+      /* font-family: 'Montserrat', 'Ubuntu' ,sans-serif; */
+
+      /* background: rgb(205,200,168);
+      background: linear-gradient(90deg, rgba(205,200,168,1) 0%, rgba(210,18,46,1) 44%, rgba(120,232,255,1) 100%); */
+    }
+
+    @media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+      #logoForBigScreen {
+          display: none;
+      }
+      .main-wrapper {
+        padding: 0px;
+        padding-top: 150px;
+      }
+    }
+  </style>
 </head>
 <body>
     <div class="main-wrapper">

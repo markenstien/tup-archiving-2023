@@ -13,6 +13,7 @@
                         <th>#</th>
                         <th>Name</th>
                         <th>Category For</th>
+                        <th>Parent</th>
                         <th>Status</th>
                         <th>Action</th>
                     </thead>
@@ -23,6 +24,7 @@
                                 <td><?php echo ++$key?></td>
                                 <td><?php echo $row->name?></td>
                                 <td><?php echo $row->category?></td>
+                                <td><?php echo $row->parent_name?></td>
                                 <td>
                                     <?php
                                         echo $row->active ? 'Active' : 'Not Active';

@@ -13,8 +13,10 @@
         {
             parent::__construct();
 
+            $this->model = model('CategoryModel');
             $this->name = 'category_form';
             $this->addName();
+            $this->addParent();
             $this->addCategory();
 
             $this->customSubmit('Create New Category');
@@ -40,10 +42,30 @@
                 'options' => [
                     'label' => 'Category For',
                     'option_values' => [
-                        CategoryService::PETTY,
-                        CategoryService::COMMON_TRANSACTIONS,
-                        CategoryService::ITEM
+                        CategoryService::CATALOG_PARENT,
+                        CategoryService::CATALOG_CHILD
                     ]
+                ],
+                'class' => 'form-control'
+            ]);
+        }
+
+        public function addParent() {
+            $categories = $this->model->all([
+                'cat.active' => true,
+                'cat.parent_id' => [
+                    'condition' => 'equal',
+                    'value' => ''
+                ]
+            ],'cat.name asc');
+            $categories = arr_layout_keypair($categories, ['id', 'category@name'], null, ' - ');
+
+            $this->add([
+                'name' => 'parent_id',
+                'type' => 'select',
+                'options' => [
+                    'label' => 'Parent',
+                    'option_values' => $categories
                 ],
                 'class' => 'form-control'
             ]);

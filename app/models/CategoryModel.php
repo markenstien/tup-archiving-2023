@@ -7,6 +7,7 @@
         public $_fillables = [
             'name',
             'category',
+            'parent_id',
             'active'
         ];
 
@@ -30,5 +31,31 @@
             return parent::update([
                 'active' => !$category->active
             ],$id);
+        }
+
+        public function all($where = null, $order = null, $limit = null) {
+
+            if(!is_null($where)) {
+                $where = " WHERE ". parent::conditionConvert($where);
+            }
+
+            if(!is_null($order)) {
+                $order = " ORDER BY {$order}";
+            }
+
+            if(!is_null($limit)) {
+                $limit = " LIMIT {$limit}";
+            }
+
+            $this->db->query(
+                "SELECT cat.*,
+                    ifnull(cat_parent.name , 'No Parent') as parent_name
+                    FROM categories as cat 
+                    LEFT JOIN categories as cat_parent
+                    ON cat_parent.id = cat.parent_id
+                {$where}{$order}{$limit}"
+            );
+
+            return $this->db->resultSet();
         }
     }

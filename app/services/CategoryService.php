@@ -1,7 +1,6 @@
 <?php
     namespace Services;
     class CategoryService {
-        const ITEM = 'ITEMS';
-        const COMMON_TRANSACTIONS = 'COMMON_TRANSACTIONS';
-        const PETTY = 'PETTY_CASH';
+        const CATALOG_CHILD = 'CATALOG_CHILD';
+        const CATALOG_PARENT = 'CATALOG_PARENT';
     }

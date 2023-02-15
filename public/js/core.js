@@ -1,4 +1,4 @@
-const URL = 'http://dev.school_management';
+const URL = 'http://dev.tup_archive';
 const DS  = '/';
 
 const getURL = function(called_url = null){

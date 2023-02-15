@@ -8,6 +8,7 @@
         public function __construct()
         {
             parent::__construct();
+            $this->categoryModel = model('CategoryModel');
             $this->init([
                 'enctype' => 'multipart/form-data'
             ]);
@@ -17,6 +18,8 @@
             $this->addDescription();
             $this->addGenre();
             $this->addYear();
+            $this->addCategory();
+            $this->addChildCategory();
             $this->addTags();
             $this->addPdf();
             $this->addWallpaper();
@@ -100,7 +103,53 @@
                 ],
                 'class' => 'form-control'
             ]);
-            
+        }
+
+        public function addCategory() 
+        {
+            $categories = $this->categoryModel->all([
+                'cat.active' => true
+            ],'cat.name asc');
+            $categories = arr_layout_keypair($categories, ['id', 'category@name'], null, ' - ');
+
+            $this->add([
+                'type' => 'select',
+                'name' => 'category_id_parent',
+                'required' => true,
+                'options' => [
+                    'label' => 'Parent Category',
+                    'option_values' => $categories
+                ],
+                'attributes' => [
+                    'id' => 'category_id_parent'
+                ],
+                'class' => 'form-control'
+            ]);
+        }
+
+        public function addChildCategory() 
+        {
+            $categories = $this->categoryModel->all([
+                'cat.active' => true,
+                'cat.parent_id' => [
+                    'condition' => 'not null'
+                ]
+            ],'cat.name asc');
+            $categories = arr_layout_keypair($categories, ['id', 'category@name'], null, ' - ');
+
+            $this->add([
+                'type' => 'select',
+                'name' => 'category_id',
+                'required' => true,
+                'options' => [
+                    'label' => 'Category',
+                    'option_values' => $categories
+                ],
+                'attributes' => [
+                    'id' => 'category_id'
+                ],
+                'class' => 'form-control'
+            ]);
         }
 
         public function addTags() {
