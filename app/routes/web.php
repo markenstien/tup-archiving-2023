@@ -91,7 +91,8 @@
 		'delete' => $controller.'/destroy',
 		'show'   => $controller.'/show',
 		'logs' => $controller.'/logs',
-		'deactivate' => $controller.'/deactivateOrActivate'
+		'deactivate' => $controller.'/deactivateOrActivate',
+		'remove' => $controller. '/remove'
 	];
 
 	$controller = '/DashboardController';

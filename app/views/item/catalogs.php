@@ -10,6 +10,7 @@
                     <thead>
                         <th>#</th>
                         <th>Name</th>
+                        <th>Catagory</th>
                         <th>Genre</th>
                         <th>Authors</th>
                         <th>Publishers</th>
@@ -23,6 +24,7 @@
                             <tr>
                                 <td><?php echo ++$key?></td>
                                 <td><?php echo $row->title?></td>
+                                <td><?php echo $row->category_name?></td>
                                 <td><?php echo $row->genre?></td>
                                 <td><?php echo $row->authors?></td>
                                 <td><?php echo $row->publishers?></td>

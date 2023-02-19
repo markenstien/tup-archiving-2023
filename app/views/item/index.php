@@ -10,6 +10,9 @@
                         ]);
                     ?> 
                         <h4>Your Search Starts Here..</h4>
+                        <?php if(isset($_GET['searchFocus'])) :?>
+                            <div class="text-danger mt-2 mb-2">Narrowing search, search focus to: <strong><?php echo $_GET['searchFocus']?></strong></div>
+                        <?php endif?>
                         <div class="form-group"><?php Form::text('keyword', '', ['class' => 'form-control','autocomplete'=>'off' , 'required' => true, 'placeholder' => 'search by tags : #tagname'])?></div>
                         <div class="form-group text-center">
                             <?php Form::submit('btn_search','Search By Keyword', ['class' => 'btn btn-primary btn-lg',])?>
@@ -32,6 +35,29 @@
                             </li>
                         </ul>
                     </div>
+
+                    
+                    <?php if(isset($_GET['searchFocus'])) :?>
+                        <div>
+                            <h5>Search Focus Children</h5>
+                            <?php
+                                if(isset($children)) {
+                                    foreach($children as $key => $row)  {
+                                        $unique_id = random_letter(5).'-'.$row->id;
+                                        ?> 
+                                            <label for="<?php echo $unique_id?>">
+                                                <input type="checkbox" value="<?php echo $row->id?>" name="category_children[]"
+                                                    id="<?php echo $unique_id?>">
+                                                <?php echo $row->name?>
+                                            </label>
+                                        <?php
+                                    }
+                                }
+                                
+                            ?>
+                        </div>
+                        <div class="text-danger mt-2 mb-2">Narrowing search, search focus to: <strong><?php echo $_GET['searchFocus']?></strong></div>
+                    <?php endif?>
                 </div>
             </div>
         </div>

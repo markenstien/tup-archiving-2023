@@ -8,12 +8,21 @@
             'name',
             'category',
             'parent_id',
+            'abbr',
             'active'
         ];
 
         public function createOrUpdate($categoryData, $id = null) {
             $_fillables = parent::getFillablesOnly($categoryData);
-            if (!is_null($id)) {
+
+            $checkingData['id'] = $id;
+            $isCheckingGood = $this->checking($checkingData, $id);
+
+            if(!$isCheckingGood) {
+                return false;
+            }
+            if (!is_null($id)) 
+            {
                 $this->addMessage(parent::$MESSAGE_UPDATE_SUCCESS);
                 return parent::update($_fillables, $id);
             } else {
@@ -23,6 +32,27 @@
             }
         }
 
+
+        public function checking($data, $isUpdate = null) {
+            if(isset($data['abbr']))  {
+                $currentAbbr = parent::single([
+                    'abbr' => $data['abbr']
+                ]);
+
+                if(!is_null($isUpdate)) {
+                    if($currentAbbr->id != $data['id']) {
+                        $this->addError("{$data['abbr']} Abbr already exists");
+                        return false;
+                    }
+                } else {
+                    $this->addError("{$data['abbr']} Abbr already exists");
+                    return false;   
+                }
+            }
+
+            return true;
+        }
+        
         public function deactivateOrActivate($id) {
             $category = parent::get($id);
             if(!$category) 

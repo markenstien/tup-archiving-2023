@@ -85,7 +85,7 @@
                         <?php echo wDivider()?>
                         <small><strong>Reference </strong>: <?php echo $catalog->reference?></small>
                     </div>
-
+                    <?php if($userUploads) :?>
                     <div class="mt-5">
                         <h5>Catalogs Uploaded By same user</h5>
                         <ul class="list-group">
@@ -98,6 +98,7 @@
                             <?php endforeach?>
                         </ul>
                     </div>
+                    <?php endif?>
                 </div>
             </div>
         </div>
@@ -123,7 +124,6 @@
                 </div>
             </div>
         </div>
-
         <div class="col-md-3">
             <div class="card">
                 <div class="card-header">

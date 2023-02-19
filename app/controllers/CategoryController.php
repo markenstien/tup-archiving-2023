@@ -12,8 +12,35 @@
         }
 
         public function index() {
-            $this->data['categories'] = $this->model->all(null, 'category desc,name asc');
+            $req = request()->inputs();
+
+            if($req) {
+                $this->data['categories'] = $this->model->all([
+                    'cat.category' => $req['category']
+                ], 'category desc,name asc');
+            } else {
+                $this->data['categories'] = $this->model->all(null, 'category desc,name asc');
+            }
+
             return $this->view('category/index', $this->data);
+        }
+
+        public function show($id) {
+            $category = $this->model->get($id);
+
+            if(!$category->parent_id) {
+                $children = $this->model->all([
+                    'cat.parent_id' => $category->id
+                ]);
+
+                $this->data['children'] = $children;
+                $this->data['category'] = $category;
+
+                return $this->view('category/show', $this->data);
+            } else {
+                Flash::set("This category is not parent", 'warning');
+                return request()->return();
+            }
         }
 
         public function create() {
@@ -69,5 +96,15 @@
             $this->model->deactivateOrActivate($id);
             Flash::set($this->model->getMessageString());
             return redirect(_route('category:index'));
+        }
+
+        //remove from parent
+        public function remove($id) {
+            $this->model->update([
+                'parent_id' => null
+            ], $id);
+
+            Flash::set("Removed from Child");
+            return request()->return();
         }
     }

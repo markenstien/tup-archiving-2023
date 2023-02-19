@@ -33,7 +33,7 @@
         public function index() {
             $req = request()->inputs();
 
-            if(!empty($req)) 
+            if(!empty($req['keyword']))
             {
                 $searchBy = $req['searchBy'] ?? 'keyword';
                 $keyword = $req['keyword'];
@@ -303,6 +303,19 @@
                 $this->data['otherResults'] = $otherResults ?? [];
                 $this->data['possibleCatalogs'] = $possibleCatalogs ?? [];
             }
+
+            if(isset($req['searchTokenKey'])) {
+                $searchTokenKey = unseal($req['searchTokenKey']);
+                $category = $this->category->get($searchTokenKey);
+
+                if($category) {
+                    $children = $this->category->all([
+                        'cat.parent_id' => $category->id
+                    ]);
+
+                    $this->data['children'] = $children;
+                }
+            }
             return $this->view('item/index', $this->data);
         }
         
@@ -546,13 +559,34 @@
         }
 
         public function catalogs() {
-            if(!isEqual($this->data['whoIs']->user_type, UserService::ADMIN)) {
-                Flash::set("You are not authorized to access that page", 'warning');
-                return redirect(_route('item:my-catalog'));
-            }
+            // if(!isEqual($this->data['whoIs']->user_type, UserService::ADMIN)) {
+            //     Flash::set("You are not authorized to access that page", 'warning');
+            //     return redirect(_route('item:my-catalog'));
+            // }
+            $req = request()->inputs();
+            $condition = null;
 
+            if(isset($req['searchFocus'])) {
+                $parentId = $req['searchTokenKey'];
+                $parentId = unseal($parentId);
+                $categories = $this->category->all([
+                    'cat.parent_id' => $parentId
+                ]);
+
+                $categoyIds = [];
+                foreach($categories as $key => $row) {
+                    $categoyIds[] = $row->id;
+                }
+
+                $condition = [
+                    'category_id' => [
+                        'condition' => 'in',
+                        'value' => $categoyIds
+                    ]
+                ];
+            }
             $this->data['catalogs'] = $this->model->getAll([
-                'order' => 'id desc'
+                'where' => $condition
             ]);
 
             return $this->view('item/catalogs', $this->data);

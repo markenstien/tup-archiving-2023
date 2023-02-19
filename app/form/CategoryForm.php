@@ -16,6 +16,7 @@
             $this->model = model('CategoryModel');
             $this->name = 'category_form';
             $this->addName();
+            $this->addAbbr();
             $this->addParent();
             $this->addCategory();
 
@@ -31,6 +32,22 @@
                     'label' => 'Name'
                 ],
                 'class' => 'form-control'
+            ]);
+        }
+
+
+        public function addAbbr() {
+            $this->add([
+                'name' => 'abbr',
+                'type' => 'text',
+                'required' => true,
+                'options' => [
+                    'label' => 'Abbr'
+                ],
+                'class' => 'form-control',
+                'attributes' => [
+                    'placeholder' => 'EG. BSIT maximum of 10 characters.'
+                ]
             ]);
         }
 
@@ -53,10 +70,7 @@
         public function addParent() {
             $categories = $this->model->all([
                 'cat.active' => true,
-                'cat.parent_id' => [
-                    'condition' => 'equal',
-                    'value' => ''
-                ]
+                'cat.category' => CategoryService::CATALOG_PARENT
             ],'cat.name asc');
             $categories = arr_layout_keypair($categories, ['id', 'category@name'], null, ' - ');
 

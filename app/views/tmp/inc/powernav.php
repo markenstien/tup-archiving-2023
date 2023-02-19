@@ -145,6 +145,26 @@
                     </div>
                 </div>
             </li>
+            <?php
+                $database = Database::getInstance();
+
+                $database->query(
+                    "SELECT * FROM categories
+                        where category = 'CATALOG_PARENT' "
+                );
+
+                $navigationItems = $database->resultSet();
+            ?>
+
+            <?php foreach($navigationItems as $key => $row) :?>
+                <li class="nav-item">
+                    <a href="<?php echo _route('item:catalogs', null, [
+                        'searchTokenKey' => seal($row->id),
+                        'searchFocus' => $row->abbr
+                    ])?>" class="nav-link" style="color:#fff"><?php echo $row->abbr?></a>
+                </li>
+            <?php endforeach?>
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <?php if(!empty(whoIs('profile'))) :?>
@@ -167,26 +187,26 @@
                             <p class="tx-12 text-muted">#<?php echo whoIs('user_identification')?>@<?php echo whoIs('user_type')?></p>
                         </div>
                     </div>
-    <ul class="list-unstyled p-1">
-        <li class="dropdown-item py-2">
-        <a href="<?php echo _route('user:show', whoIs('id'))?>" class="text-body ms-0">
-            <i class="me-2 icon-md" data-feather="user"></i>
-            <span>Profile</span>
-        </a>
-        </li>
-        <li class="dropdown-item py-2">
-        <a href="javascript:;" class="text-body ms-0">
-            <i class="me-2 icon-md" data-feather="edit"></i>
-            <span>Edit Profile</span>
-        </a>
-        </li>
-        <li class="dropdown-item py-2">
-        <a href="<?php echo _route('auth:logout')?>" class="text-body ms-0">
-            <i class="me-2 icon-md" data-feather="log-out"></i>
-            <span>Log Out</span>
-        </a>
-        </li>
-    </ul>
+                        <ul class="list-unstyled p-1">
+                            <li class="dropdown-item py-2">
+                            <a href="<?php echo _route('user:show', whoIs('id'))?>" class="text-body ms-0">
+                                <i class="me-2 icon-md" data-feather="user"></i>
+                                <span>Profile</span>
+                            </a>
+                            </li>
+                            <li class="dropdown-item py-2">
+                            <a href="javascript:;" class="text-body ms-0">
+                                <i class="me-2 icon-md" data-feather="edit"></i>
+                                <span>Edit Profile</span>
+                            </a>
+                            </li>
+                            <li class="dropdown-item py-2">
+                            <a href="<?php echo _route('auth:logout')?>" class="text-body ms-0">
+                                <i class="me-2 icon-md" data-feather="log-out"></i>
+                                <span>Log Out</span>
+                            </a>
+                            </li>
+                        </ul>
                 </div>
             </li>
         </ul>
