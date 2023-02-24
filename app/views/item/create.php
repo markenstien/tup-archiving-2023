@@ -74,7 +74,12 @@
     <script>
         $(document).ready(function() {
             $("#category_id_parent").change(function() {
-
+                $("#category_child_container").hide();
+                    $('#category_child')
+                    .find('option')
+                    .remove()
+                    .end();
+                    
                 $.ajax({
                     url: getURL('api/Category/getChild'),
                     data: {
@@ -92,11 +97,6 @@
                                 return true;
                             }
                         }
-                        $("#category_child_container").hide();
-                        $('#category_child')
-                        .find('option')
-                        .remove()
-                        .end();
                     }
                 });
 

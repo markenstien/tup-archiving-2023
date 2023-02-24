@@ -33,6 +33,13 @@
         public function index() {
             $req = request()->inputs();
 
+            if(isset($req['advance_search'])) {
+                return $this->advanceFilter();
+            }
+
+            /*
+            *keyword search
+            */
             if(!empty($req['keyword']))
             {
                 $searchBy = $req['searchBy'] ?? 'keyword';
@@ -148,6 +155,12 @@
                                 $catalogs = $this->model->getAll([
                                     'where' => [
                                         'title' => [
+                                            'condition' => 'like',
+                                            'value' => '%'.$mainKeyword.'%',
+                                            'concatinator' => 'OR'
+                                        ],
+
+                                        'reference' => [
                                             'condition' => 'like',
                                             'value' => '%'.$mainKeyword.'%',
                                             'concatinator' => 'OR'
@@ -316,6 +329,75 @@
                     $this->data['children'] = $children;
                 }
             }
+            $categoriesOriginal = $this->category->all([
+                'cat.active' => true
+            ],'cat.name asc');
+
+            $categories = arr_layout_keypair($categoriesOriginal, ['id', 'category@name'], null, ' - ');
+
+            $this->data['categories'] = $categories;
+            $this->data['categoriesOriginal'] = $categoriesOriginal;
+            return $this->view('item/index', $this->data);
+        }
+
+        private function advanceFilter() {
+            $req = request()->inputs();
+            $isAllowedFilter = false;
+
+            foreach($req as $key => $value) {
+                if($key == 'advance_search')
+                    continue;
+
+                if(!empty($value)) {
+                    $isAllowedFilter = true;
+                    break;
+                }
+            }
+
+            if(!$isAllowedFilter) {
+                Flash::set("Invalid Filter", 'danger');
+                return request()->return();
+            }
+
+            $filterBuilder = [];
+
+            if(!empty($req['category_id_parent'])) {
+                $filterBuilder['category_id'] = $req['category_id_parent'];
+            }
+            //overwrite if category child is set
+            if(!empty($req['category_child'])) {
+                $filterBuilder['category_id'] = [
+                    'condition' => 'in',
+                    'value'     => $req['category_child']
+                ];
+            }
+
+            if(!empty($req['publishers'])) {
+                $filterBuilder['publishers'] = $req['publishers'];
+            }
+
+            if(!empty($req['authors'])) {
+                $filterBuilder['authors'] = $req['authors'];
+            }
+
+            if(!empty($req['year'])) {
+                $filterBuilder['year'] = $req['year'];
+            }
+
+            if(!empty($req['keyword'])) {
+                $filterBuilder['brief'] = $req['keyword'];
+                $filterBuilder['tags'] = $req['tags'];
+                $filterBuilder['title'] = $req['title'];
+            }
+
+            $filterBuilder = $this->model->conditionConvert($filterBuilder, 'like');
+            $catalogs = $this->model->getAll([
+                            'where' => $filterBuilder]);
+
+            $this->data['catalogs'] = $catalogs;
+            $this->data['otherResults'] = $otherResults ?? [];
+            $this->data['possibleCatalogs'] = $possibleCatalogs ?? [];
+
             return $this->view('item/index', $this->data);
         }
         
