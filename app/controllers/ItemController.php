@@ -333,7 +333,7 @@
                 'cat.active' => true
             ],'cat.name asc');
 
-            $categories = arr_layout_keypair($categoriesOriginal, ['id', 'category@name'], null, ' - ');
+            $categories = arr_layout_keypair($categoriesOriginal, ['id', 'name'], null, ' - ');
 
             $this->data['categories'] = $categories;
             $this->data['categoriesOriginal'] = $categoriesOriginal;

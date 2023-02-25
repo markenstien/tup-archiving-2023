@@ -16,7 +16,7 @@
                         <div class="form-group"><?php Form::text('keyword', '', ['class' => 'form-control','autocomplete'=>'off' , 'required' => true, 
                         'placeholder' => 'search by tags : #tagname'])?></div>
                          <div class="mt-5">
-                            <h4>Quick search guide</h4>
+                            <h4>Quick Search Guide</h4>
                             <ul class="list-unstyled">
                                 <li>Search by tags : '<strong>#</strong>keyword'</li>
                                 <li>

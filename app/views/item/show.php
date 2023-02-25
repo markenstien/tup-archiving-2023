@@ -23,17 +23,18 @@
                     &nbsp;
                     <?php echo wLinkDefault(_route('item:index', $catalog->id),'Return To catalogs')?>
                 </div>
-                <div class="card-body">
-                    <div class="d-flex align-items-start">
+                <div class="card-body" style=" overflow-wrap: break-word;">
+                    <div class="align-items-start" id="catalog_detail">
                         <?php if($catalog->wallpaper) :?>
-                            <img src="<?php echo $catalog->wallpaper->full_url?>" 
-                                class="wd-100 wd-sm-200 me-3" alt="..." style="width: 200px;">
+                            <div>
+                                <img src="<?php echo $catalog->wallpaper->full_url?>" 
+                                class="wd-900 wd-sm-150 me-3" alt="..." style="width: 200px">
+                            </div>
                         <?php else:?>
-                            <img src="https://www.thesecret.tv/wp-content/uploads/2015/05/Daily-Teaching-Book.png" 
-                                class="wd-100 wd-sm-200 me-3" alt="..." style="width: 200px;">
+                           <div> <img src="https://www.thesecret.tv/wp-content/uploads/2015/05/Daily-Teaching-Book.png" class="wd-100 wd-sm-200 me-3" alt="..." style="width: 200px;"></div>
                         <?php endif?>
-                        <div>
-                            <h5 class="mb-2">Sypnosis</h5>
+                        <div id="item-summary">
+                            <h5 class="mb-2">Course And Section</h5>
                             <p><?php echo $catalog->brief?></p>
                             <div class="mt-3">
                                 <ul class="list-unstyled">
@@ -143,5 +144,28 @@
             </div>
         </div>
     </div>
+<?php endbuild()?>
+
+<?php build('styles')?>
+    <style type="text/css">
+        #catalog_detail{
+            display: flex;
+            flex-direction: row;
+        }
+
+        @media (max-width:1400px)  {
+             /* portrait tablets, portrait iPad, e-readers (Nook/Kindle), landscape 800x480 phones (Android) */ 
+            #catalog_detail{
+                all: unset;
+            }
+        }
+
+        @media (min-width:414px and max-width:763px)  {
+             /* portrait tablets, portrait iPad, e-readers (Nook/Kindle), landscape 800x480 phones (Android) */ 
+            #catalog_detail{
+                all: unset;
+            }
+        }
+    </style>
 <?php endbuild()?>
 <?php loadTo()?>

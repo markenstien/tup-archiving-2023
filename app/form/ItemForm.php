@@ -110,7 +110,7 @@
             $categories = $this->categoryModel->all([
                 'cat.active' => true
             ],'cat.name asc');
-            $categories = arr_layout_keypair($categories, ['id', 'category@name'], null, ' - ');
+            $categories = arr_layout_keypair($categories, ['id', 'name'], null, ' - ');
 
             $this->add([
                 'type' => 'select',
@@ -135,7 +135,7 @@
                     'condition' => 'not null'
                 ]
             ],'cat.name asc');
-            $categories = arr_layout_keypair($categories, ['id', 'category@name'], null, ' - ');
+            $categories = arr_layout_keypair($categories, ['id', 'name'], null, ' - ');
 
             $this->add([
                 'type' => 'select',
