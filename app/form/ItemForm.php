@@ -56,7 +56,7 @@
                 'name' => 'brief',
                 'required' => true,
                 'options' => [
-                    'label' => 'Brief'
+                    'label' => 'Course And Section'
                 ],
                 'class' => 'form-control',
                 'attributes' => [
