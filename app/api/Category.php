@@ -16,6 +16,7 @@
                 $categories = $this->model->all([
                     'cat.parent_id' => $category->id
                 ], 'cat.name asc');
+
                 echo json_encode($categories);
             }
            
