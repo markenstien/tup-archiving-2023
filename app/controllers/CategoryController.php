@@ -28,7 +28,7 @@
         public function show($id) {
             $category = $this->model->get($id);
 
-            if(!$category->parent_id) {
+            if(isEqual($category->category, 'CATALOG_PARENT')) {
                 $children = $this->model->all([
                     'cat.parent_id' => $category->id
                 ]);
