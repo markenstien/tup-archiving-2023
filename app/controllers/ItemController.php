@@ -344,26 +344,23 @@
             $req = request()->inputs();
             $isAllowedFilter = false;
 
-            foreach($req as $key => $value) {
-                if($key == 'advance_search')
-                    continue;
-
-                if(!empty($value)) {
-                    $isAllowedFilter = true;
-                    break;
-                }
-            }
-
-            if(!$isAllowedFilter) {
-                Flash::set("Invalid Filter", 'danger');
-                return request()->return();
-            }
-
             $filterBuilder = [];
 
             if(!empty($req['category_id_parent'])) {
-                $filterBuilder['category_id'] = $req['category_id_parent'];
+                $categories = $this->category->getChildren($req['category_id_parent']);
+                $categoryIds = [];
+
+                if($categories) {
+                    foreach($categories as $key => $row) {
+                        $categoryIds [] = $row->id;
+                    }
+                    $filterBuilder['category_id'] = [
+                        'condition' => 'in',
+                        'value' => $categoryIds
+                    ];
+                }
             }
+
             //overwrite if category child is set
             if(!empty($req['category_child'])) {
                 $filterBuilder['category_id'] = [
@@ -388,6 +385,11 @@
                 $filterBuilder['brief'] = $req['keyword'];
                 $filterBuilder['tags'] = $req['tags'];
                 $filterBuilder['title'] = $req['title'];
+            }
+
+            if(empty($filterBuilder)) {
+                Flash::set("Invalid Filter", 'danger');
+                return request()->return();
             }
 
             $filterBuilder = $this->model->conditionConvert($filterBuilder, 'like');

@@ -1,4 +1,6 @@
 <?php
+    use Services\CategoryService;
+    load(['CategoryService'], SERVICES);
 
     class CategoryModel extends Model
     {
@@ -87,5 +89,16 @@
             );
 
             return $this->db->resultSet();
+        }
+
+        public function getChildren($id) {
+            $category = parent::get($id);
+            if($category) {
+                if(isEqual($category->category, CategoryService::CATALOG_PARENT)) {
+                    return $this->all(['cat.parent_id' => $category->id]);
+                }
+                return [$category];
+            }
+            return [];
         }
     }
