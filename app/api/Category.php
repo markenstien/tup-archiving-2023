@@ -12,7 +12,7 @@
             $req = request()->inputs();
             $category = $this->model->get($req['category_id']);
             
-            if(isEqual($category->category, 'CATALOG_PARENT') {
+            if(isEqual($category->category, 'CATALOG_PARENT')) {
                 $categories = $this->model->all([
                     'cat.parent_id' => $category->id
                 ], 'cat.name asc');
