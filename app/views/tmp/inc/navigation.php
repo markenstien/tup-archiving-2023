@@ -1,4 +1,4 @@
-<nav class="sidebar">
+    <nav class="sidebar">
     <div class="sidebar-header">
     <a href="#" class="sidebar-brand">
         <?php echo COMPANY_NAME?>
@@ -54,6 +54,13 @@
                 <a href="<?php echo _route('category:index')?>" class="nav-link">
                     <i class="link-icon" data-feather="message-square"></i>
                     <span class="link-title">Category</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="<?php echo _route('catalog-log:index')?>" class="nav-link">
+                    <i class="link-icon" data-feather="message-square"></i>
+                    <span class="link-title">Logs</span>
                 </a>
             </li>
         <?php endif?>

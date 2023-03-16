@@ -90,12 +90,24 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <?php
-                                                Form::label('Year');
-                                                Form::text('year', '', [
-                                                    'class' => 'form-control'
-                                                ]);
-                                            ?>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <?php
+                                                        Form::label('Start Year');
+                                                        Form::text('start_year', '', [
+                                                            'class' => 'form-control'
+                                                        ]);
+                                                    ?>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <?php
+                                                        Form::label('End Year');
+                                                        Form::text('end_year', '', [
+                                                            'class' => 'form-control'
+                                                        ]);
+                                                    ?>
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <div class="form-group">

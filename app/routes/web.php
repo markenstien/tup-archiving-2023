@@ -135,6 +135,18 @@
 	];
 
 
+	$controller = '/CatalogLogsController';
+	$routes['catalog-log'] = [
+		'index' => $controller.'/index',
+		'edit' => $controller.'/edit',
+		'create' => $controller.'/create',
+		'delete' => $controller.'/destroy',
+		'archived' => $controller.'/archived',
+		'show'   => $controller.'/show',
+		'rollback' => $controller .'/rollBack'
+	];
+
+
 
 	$controller = '/FormBuilderController';
 	$routes['form'] = [

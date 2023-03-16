@@ -108,6 +108,10 @@
 		{
 			if(!empty($user_data['email']))
 			{
+				if(!filter_var($user_data['email'], FILTER_VALIDATE_EMAIL)) {
+					$this->addError("Invalid Email");
+					return false;
+				}
 				$is_exist = $this->getByKey('email' , $user_data['email'])[0] ?? '';
 
 				if( $is_exist && !isEqual($is_exist->id , $id) ){
@@ -126,15 +130,23 @@
 			// 	}
 			// }
 
-			// if(isset($user_data['phone_number']) && !empty($user_data['username']))
-			// {
-			// 	$is_exist = $this->getByKey('phone_number' , $user_data['phone_number'])[0] ?? '';
+			if(!empty($user_data['phone']))
+			{
+				$phone = preg_replace('/[^0-9]/', '', $user_data['phone']);
+				if(strlen($phone) != 11) {
+					$this->addError("Invalid {$phone} Number");
+					return false;
+				    //Phone is 10 characters in length (###) ###-####
+				}
+				
+				//check if email is valid
+				$is_exist = $this->getByKey('phone' , $phone)[0] ?? '';
 
-			// 	if( $is_exist && !isEqual($is_exist->id , $id) ){
-			// 		$this->addError("Phonne Number {$user_data['phone_number']} already used");
-			// 		return false;
-			// 	}
-			// }
+				if( $is_exist && !isEqual($is_exist->id , $id) ){
+					$this->addError("Phonne Number {$phone} already used");
+					return false;
+				}
+			}
 
 			if(!empty($user_data['user_identification']))
 			{

@@ -147,7 +147,7 @@
 
 				'attributes' => [
 					'id' => 'phone',
-					'placeholder' => 'Eg. 09xxxxxxxxx'
+					'placeholder' => 'Mobile number allowed format : 09xx(11digits)'
 				]
 			]);
 		}

@@ -82,7 +82,6 @@
 			if($where != null) {
 				$sql .= " WHERE $where";
 			}
-			
 			$this->db->query($sql);
 
 			try{

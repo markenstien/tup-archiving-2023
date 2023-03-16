@@ -387,6 +387,27 @@
                 $filterBuilder['title'] = $req['title'];
             }
 
+            if(!empty($req['start_year']) || !empty($req['end_year'])) {
+                if(empty($req['start_year'])) {
+                    Flash::set("Start year field is required to be filled",'warning');
+                    return request()->return();
+                } else {
+                    if(empty($req['end_year'])) {
+                        $req['end_year'] = Date('Y');
+                    }
+                    
+                    if($req['start_year'] > $req['end_year']) {
+                        Flash::set("Start year cannot be greater than end year", 'warning');
+                        return request()->return();
+                    }
+
+                    $filterBuilder['year'] = [
+                        'condition' => 'in',
+                        'value' => [$req['start_year'], $req['end_year']]
+                    ];
+                }
+            }
+
             if(empty($filterBuilder)) {
                 Flash::set("Invalid Filter", 'danger');
                 return request()->return();
@@ -406,6 +427,7 @@
         public function create() {
             if(isSubmitted()) {
                 $post = request()->posts();
+                
                 $catalogId = $this->model->createOrUpdate($post);
                 if(!$catalogId) {
                     Flash::set($this->model->getErrorString(), 'danger');
@@ -500,17 +522,13 @@
                         'class' => 'form-control',
                         'value' => $category->id
                     ]);
+                    $form->setValue('category_id', $categoryParent->id);
                 }
-    
-                $form->setValue('category_id', $categoryParent->id);
             }
             $form->setValueObject($catalog);
-
             $this->data['catalog'] = $catalog;
             $this->data['form'] = $form;
-
             $this->data['category_id'] = isset($categoryParent);
-            
 
             return $this->view('item/edit', $this->data);
         }
@@ -594,7 +612,7 @@
                 return redirect(_route('item:index'));
             }
 
-            $this->model->delete($id);
+            $this->model->destroyCatalog($id);
 
             Flash::set("Catalog Removed");
             return redirect(_route('item:my-catalog'));

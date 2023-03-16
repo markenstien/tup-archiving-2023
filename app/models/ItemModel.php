@@ -22,6 +22,14 @@
             'category_id'
         ];
 
+
+        public function __construct() {
+            parent::__construct();
+
+            $this->catalogLogModel = model('CatalogLogModel');
+            $this->catalogArchivedModel = model('CatalogArchivedModel');
+        }
+
         public function createOrUpdate($itemData, $id = null) 
         {
             $this->categoryModel = model('CategoryModel');
@@ -77,10 +85,42 @@
             }
 
             if(is_null($id)) {
-                return parent::store($_fillables);
+                $itemId = parent::store($_fillables);
+
+                $this->catalogLogModel->createOrUpdate([
+                    'log_message' => " User ". whoIs('email') . " created a new catalog '{$_fillables['title']}'",
+                    'user_id' => whoIs('id'),
+                    'catalog_id' => seal($itemId),
+                    'created_at' => nowMilitary()
+                ]);
+                return $itemId;
             }else{
+                $this->catalogLogModel->createOrUpdate([
+                    'log_message' => " User ". whoIs('email') . " updated catalog '{$_fillables['title']}'",
+                    'user_id' => whoIs('id'),
+                    'catalog_id' => seal($id),
+                    'created_at' => nowMilitary()
+                ]);
+
                 return parent::update($_fillables, $id);
             }
+        }
+
+        public function destroyCatalog($id) 
+        {
+            $item = parent::get($id);
+            $this->catalogLogModel->createOrUpdate([
+                'log_message' => " User ". whoIs('email') . " deleted catalog '{$item->title}'",
+                'user_id' => whoIs('id'),
+                'catalog_id' => seal($id),
+                'created_at' => nowMilitary()
+            ]);
+
+            $this->catalogArchivedModel->createOrUpdate([
+                'catalog_values' => $item,
+                'catalog_id' => $id
+            ]);
+            return parent::delete($id);
         }
 
         /**
@@ -217,11 +257,11 @@
 
             if($isCheckable) {
                 $catalog = parent::single([
-                    'title' => $catalogData['title'],
+                    'title' => str_escape($catalogData['title']),
                     'year'  => $catalogData['year']
                 ]);
                 
-                if(!is_null($referenceCatalog)) {
+                if(!is_null($referenceCatalog) && $catalog) {
                     if($catalog->id == $referenceCatalog->id)
                         return true;
                 }
