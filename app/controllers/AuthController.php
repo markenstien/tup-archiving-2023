@@ -90,7 +90,7 @@
 					return request()->return();
 				}else
 				{
-					Flash::set( "Welcome Back !" . auth('firstname'));
+					Flash::set( "Welcome Back !" . auth('firstname'), 'primary');
 				}
 
 				$lastPage = $req['lastPage'] ?? '';

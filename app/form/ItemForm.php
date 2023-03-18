@@ -117,7 +117,7 @@
                 'name' => 'category_id_parent',
                 'required' => true,
                 'options' => [
-                    'label' => 'Parent Category',
+                    'label' => 'Course',
                     'option_values' => $categories
                 ],
                 'attributes' => [
@@ -184,7 +184,7 @@
                 'required' => true,
                 'class' => 'form-control',
                 'options' => [
-                    'label' => 'Wallpaper'
+                    'label' => 'Catalog Profile'
                 ],
             ]);
         }

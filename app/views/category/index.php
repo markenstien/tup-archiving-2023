@@ -5,10 +5,10 @@
             <?php echo wLinkDefault(_route('category:create'), 'Create', ['icon' => 'plus-circle'])?> | 
             <?php echo wLinkDefault(_route('category:index', null, [
                 'category' => 'CATALOG_PARENT'
-            ]), 'Parent Only')?>
+            ]), 'Department')?>
             <?php echo wLinkDefault(_route('category:index', null, [
                 'category' => 'CATALOG_CHILD'
-            ]), 'Child Only')?>
+            ]), 'Course')?>
             <?php Flash::show()?>
 
             <?php echo wLinkDefault(_route('category:index', null,), 'Show All')?>

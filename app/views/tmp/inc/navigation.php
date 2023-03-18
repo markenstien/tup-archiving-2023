@@ -60,7 +60,7 @@
             <li class="nav-item">
                 <a href="<?php echo _route('catalog-log:index')?>" class="nav-link">
                     <i class="link-icon" data-feather="message-square"></i>
-                    <span class="link-title">Logs</span>
+                    <span class="link-title">Logs And Archived</span>
                 </a>
             </li>
         <?php endif?>

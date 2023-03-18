@@ -138,11 +138,11 @@
 		public function addPhoneNumber()
 		{
 			$this->add([
-				'type' => 'text',
+				'type' => 'number',
 				'name' => 'phone',
 				'class' => 'form-control',
 				'options' => [
-					'label' => 'Phone Number',
+					'label' => 'Mobile Number',
 				],
 
 				'attributes' => [

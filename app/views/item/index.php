@@ -94,7 +94,7 @@
                                                 <div class="col-md-6">
                                                     <?php
                                                         Form::label('Start Year');
-                                                        Form::text('start_year', '', [
+                                                        Form::number('start_year', '', [
                                                             'class' => 'form-control'
                                                         ]);
                                                     ?>
@@ -102,7 +102,7 @@
                                                 <div class="col-md-6">
                                                     <?php
                                                         Form::label('End Year');
-                                                        Form::text('end_year', '', [
+                                                        Form::number('end_year', '', [
                                                             'class' => 'form-control'
                                                         ]);
                                                     ?>
