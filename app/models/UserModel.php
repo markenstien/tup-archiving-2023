@@ -351,6 +351,12 @@
 			return $this->db->single()->total ?? 0;
 		}
 
+		public function changePassword($password,$userId) {
+			return parent::update([
+				'password' => $password
+			], $userId);
+		}
+
 		public function getSummary()
 		{
 			$patients = $this->getAll([

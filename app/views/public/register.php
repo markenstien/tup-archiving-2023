@@ -36,7 +36,6 @@
                     </div>
                 </div>
                 <?php echo wDivider(80)?>
-                <?php echo wLogo('wide')?>
             </div>
 
             <?php echo Form::close()?>

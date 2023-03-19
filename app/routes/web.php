@@ -2,6 +2,17 @@
 	
 	$routes = [];
 
+	$controller = '/ForgetPasswordController';
+	$routes['forget-pw'] = [
+		'index' => $controller.'/index',
+		'edit' => $controller.'/edit',
+		'create' => $controller.'/create',
+		'delete' => $controller.'/destroy',
+		'send'   => $controller.'/send',
+		'resetPassword' => $controller .'/resetPassword '
+	];
+
+
 	$controller = '/MailerController';
 	$routes['mailer'] = [
 		'index' => $controller.'/index',

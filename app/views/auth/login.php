@@ -23,7 +23,7 @@
                                 </div>
 
                                 <?php echo wDivider('20')?>
-                                <a href="#">Forgot password?</a> <?php echo wDivider('20')?>
+                                <a href="<?php echo _route('forget-pw:index')?>">Forgot password?</a> <?php echo wDivider('20')?>
                                 <label for="#">Don't have Account? <a href="<?php echo _route('auth:register')?>">Register Here.</a></label>
                             <?php echo wDivider(80)?>
                         <?php __( $form->end() )?>
