@@ -96,16 +96,18 @@
 					]) 
 				];
 
-				$href = URL.DS._route('forget-pw:resetPassword');
-
-				$link = wLinkDefault($href, null, [
+				$href = URL.'/'._route('forget-pw:resetPassword', null,[
 					'expiry' => $preparePayload['expiry'],
-					'token' => $preparePayload['token'],
-				], 'Reset password link');
+					'token' => $preparePayload['token']
+				]);
+
+				$link = wLinkDefault($href,);
+				$link = wLinkDefault($href, 'Reset password link');
 
 				$html = "<div> You have requested to reset your password </div>";
 				$html .= "<div> Please click the link below to continue, if this is not your please ignore the change password request";
 				$html .= "<div>{$link}</div>";
+
 				_mail($emailUsed,"Reset password", $html);
 
 				echo die("Reset password link has been sent to your email, you can close this page now.");
