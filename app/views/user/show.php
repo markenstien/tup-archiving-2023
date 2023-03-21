@@ -96,16 +96,6 @@
 							</div>
 						</div>
 
-						<div class="col-md-8">
-							<div class="card">
-								<div class="card-body">
-									<h4>Interests</h4>
-									<p>
-										lorem ipsum
-									</p>
-								</div>
-							</div>
-						</div>
 					</div>
 				</div>
 			</div>

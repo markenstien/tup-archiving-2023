@@ -79,7 +79,8 @@
 		'like'   => $controller.'/like',
 		'my-catalog' => $controller.'/myCatalog',
 		'catalogs'  => $controller. '/catalogs',
-		'add-attachment' => $controller .'/addAttachment'
+		'add-attachment' => $controller .'/addAttachment',
+		'approval' => $controller . '/approval'
 	];
 
 	$controller = '/ItemCommentController';

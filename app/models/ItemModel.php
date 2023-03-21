@@ -85,6 +85,11 @@
             }
 
             if(is_null($id)) {
+
+                if(!isAdmin()) {
+                    $_fillables['is_viewable'] = false;
+                }
+                
                 $itemId = parent::store($_fillables);
 
                 $this->catalogLogModel->createOrUpdate([

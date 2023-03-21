@@ -1,5 +1,19 @@
 <?php build('content') ?>
 <?php Flash::show()?>
+    <?php if(!$catalog->is_viewable) :?>
+        <div class="alert alert-warning">
+            <p class="alert-text">Only you can see this catalog. waiting for admin approval to post your catalog in public.</p>
+            <?php if(isAdmin()) :?>
+                <?php echo wLinkDefault(_route('item:approval', null, [
+                    'itemID' => seal($catalog->id),
+                    'action' => 'approve'
+                ]), 'Approve', [
+                    'icon' => 'check-circle',
+                    'class' => 'btn btn-primary'
+                ])?>
+            <?php endif?>
+        </div>
+    <?php endif?>
     <div class="row">
         <div class="col-md-5">
             <div class="card">

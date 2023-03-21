@@ -54,6 +54,7 @@
                                     'condition' => 'like',
                                     'value' => "%{$keyword}%"
                                 ],
+                                'is_viewable' => true
                             ],
 
                             'order' => 'view_total desc'
@@ -68,6 +69,7 @@
                                     'condition' => 'like',
                                     'value' => "%{$keyword}%"
                                 ],
+                                'is_viewable' => true
                             ],
                             'order' => 'view_total desc'
                         ]);
@@ -94,6 +96,7 @@
                                     'condition' => 'like',
                                     'value' => "%{$keyword}%"
                                 ],
+                                'is_viewable' => true
                             ],
                             'order' => 'view_total desc'
                         ]);
@@ -110,7 +113,8 @@
                                     'tags' => [
                                         'condition' => 'like',
                                         'value' => '%'.$keyword .'%'
-                                    ]
+                                    ],
+                                    'is_viewable' => true
                                     ],
                                 'order' => 'view_total desc'
                             ]);
@@ -164,7 +168,9 @@
                                             'condition' => 'like',
                                             'value' => '%'.$mainKeyword.'%',
                                             'concatinator' => 'OR'
-                                        ]
+                                        ],
+
+                                        'is_viewable' => true
                                     ],
                                     'order' => 'view_total desc'
                                 ]);
@@ -218,6 +224,7 @@
                                         'value' => '%'.$publisherKeyword.'%',
                                         'concatinator' => 'OR'
                                     ],
+                                    'is_viewable' => true
                                 ],
                                 'order' => 'view_total desc'
                             ]);
@@ -242,7 +249,8 @@
                                         'item.id' => [
                                             'condition' => 'not equal',
                                             'value' => $catalog->id
-                                        ]
+                                        ],
+                                        'is_viewable' => true
                                     ],
 
                                     'order' => 'meta_view.total_count desc',
@@ -279,7 +287,8 @@
                                         'item.id' => [
                                             'condition' => 'not in',
                                             'value' => $catalogIds
-                                        ]
+                                        ],
+                                        'is_viewable' => true
                                     ],
                                     
                                     'order' => 'meta_view.total_count asc'
@@ -303,6 +312,7 @@
                                                 'value' => '%'.$mainKeyword.'%',
                                                 'concatinator' => 'OR'
                                             ],
+                                            'is_viewable' => true
                                         ],
 
                                         'order' => 'meta_view.total_count desc',
@@ -692,5 +702,32 @@
             ]);
 
             return $this->view('item/catalogs', $this->data);
+        }
+
+        public function approval() {
+
+            $req = request()->inputs();
+
+            if(isset($req['action']) && isEqual($req['action'], 'approve')) {
+
+                $id = unseal($req['itemID']);
+
+                $this->model->update([
+                    'is_viewable' => true
+                ], $id);
+
+                Flash::set("Catalog approved");
+
+                return redirect(_route('item:show', $id));
+            }
+            
+            $this->data['catalogs'] = $this->model->getAll([
+                'where' => [
+                    'is_viewable' => false
+                ]
+            ]);
+
+
+            return $this->view('item/approval', $this->data);
         }
     }

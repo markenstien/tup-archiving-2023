@@ -2,6 +2,11 @@
     <div class="card">
         <div class="card-header">
             <h4 class="card-title">Catalogs</h4>
+            <?php
+                if(isAdmin()) {
+                    echo wLinkDefault(_route('item:approval'), 'for approvals');
+                }
+            ?>
         </div>
 
         <div class="card-body">
