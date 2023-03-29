@@ -7,9 +7,12 @@
 				'icon' => 'plus-circle'
 			])?>
 
-			<?php echo wLinkDefault(_route('user:subadmin-list'), 'Sub Admins', [
-				'icon' => 'plus-circle'
-			])?>
+			<?php 
+			if(isAdmin())
+				echo wLinkDefault(_route('user:subadmin-list'), 'Sub Admins', [
+					'icon' => 'plus-circle'
+				]);
+			?>
 		</div>
 
 		<div class="card-body">

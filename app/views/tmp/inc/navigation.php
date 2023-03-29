@@ -19,7 +19,7 @@
                 <span class="link-title">Dashboard</span>
             </a>
         </li>
-        <?php if(isAdmin()) :?>
+        <?php if(isEqual(whoIs('user_type'), ['ADMINISTRATOR', 'SUB_ADMIN'])) :?>
         <li class="nav-item">
             <a href="<?php echo _route('user:index')?>" class="nav-link">
                 <i class="link-icon" data-feather="message-square"></i>

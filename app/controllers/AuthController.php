@@ -83,6 +83,25 @@
 			if(isSubmitted())
 			{
 				$post = request()->posts();
+				$user = $this->user->single([
+					'email' => $post['email']
+				]);
+
+				$loginType = $req['login_type'] ?? 'common-user';
+				
+				if(isEqual($loginType, 'admin')) {
+					if(!isEqual($user->user_type, [UserService::SUB_ADMIN, UserService::ADMIN])) {
+						Flash::set("user not found", 'danger');
+						return request()->return();
+					}
+				}
+
+				if(isEqual($loginType, 'common-user')) {
+					if(isEqual($user->user_type, [UserService::SUB_ADMIN, UserService::ADMIN])) {
+						Flash::set("user not found", 'danger');
+						return request()->return();
+					}
+				}				
 
 				$res = $this->user->authenticate($post['email'] , $post['password']);
 
@@ -115,7 +134,8 @@
 
 			$data = [
 				'title' => 'Login Page',
-				'form'  => $form
+				'form'  => $form,
+				'loginType' => $req['login_type'] ?? 'common-user'
 			];
 
 			return $this->view('auth/login' , $data);
