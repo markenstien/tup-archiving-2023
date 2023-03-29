@@ -38,7 +38,9 @@
 		'create' => $controller.'/create',
 		'delete' => $controller.'/destroy',
 		'show'   => $controller.'/show',
-		'sendCredential' => $controller.'/sendCredential'
+		'sendCredential' => $controller.'/sendCredential',
+		'subadmin-list' => $controller. '/subAdmins',
+		'approve-sub-admin' => $controller . '/approveSubAdmin'
 	];
 
 	$controller = '/AuthController';
@@ -80,7 +82,8 @@
 		'my-catalog' => $controller.'/myCatalog',
 		'catalogs'  => $controller. '/catalogs',
 		'add-attachment' => $controller .'/addAttachment',
-		'approval' => $controller . '/approval'
+		'approval' => $controller . '/approval',
+		'generate-internal-reference' => $controller . '/generateInternalReference'
 	];
 
 	$controller = '/ItemCommentController';

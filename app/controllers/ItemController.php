@@ -121,6 +121,23 @@
                             
                         } else 
                         {
+                            if(is_numeric($keyword)) {
+
+                                $this->data['catalogs'] = $this->model->getAll([
+                                    'where' => [
+                                        'internal_reference' => [
+                                            'condition' => 'like',
+                                            'value' => "%{$keyword}%",
+                                            'concatinator' => 'OR'
+                                        ],
+                                        'reference' => [
+                                            'condition' => 'like',
+                                            'value' => "%{$keyword}%"
+                                        ]
+                                    ]
+                                ]);
+                                return $this->view('item/index', $this->data);
+                            }
                             $isSpecificSearch = false;
                             $arrayKeyWord = explode('&;', $keyword);
 
@@ -165,6 +182,12 @@
                                         ],
 
                                         'reference' => [
+                                            'condition' => 'like',
+                                            'value' => '%'.$mainKeyword.'%',
+                                            'concatinator' => 'OR'
+                                        ],
+
+                                        'internal_reference' => [
                                             'condition' => 'like',
                                             'value' => '%'.$mainKeyword.'%',
                                             'concatinator' => 'OR'
@@ -444,23 +467,7 @@
                     return request()->return();
                 }
 
-                $qrValue = URL.DS._route('item:show', $catalogId, [
-					'tokenID' => seal($catalogId)
-				]);
-
-				$qrName = seal(random_number(15).$catalogId);
-				$QRCODE = QRTokenService::createIMAGE([
-					'qr_name' => $qrName,
-					'path_upload' => PATH_UPLOAD.DS.'catalogs'.DS.'qr_codes',
-					'image_link'  => GET_PATH_UPLOAD.'/'.'catalogs/qr_codes',
-					'qr_value' => $qrValue 
-				]);
-
-				$this->model->update([
-                    'qr_path' => $QRCODE['qr_path'],
-                    'qr_link' => $QRCODE['qr_link'],
-                    'qr_value' => $QRCODE['qr_value'],
-                ], $catalogId);
+                $this->createQR($catalogId);
 
                 if(!upload_empty('pdf_file')) {
                     $this->_attachmentModel->upload([
@@ -481,6 +488,26 @@
                 return redirect(_route('item:show', $catalogId));
             }
             return $this->view('item/create', $this->data);
+        }
+
+        private function createQR($catalogId){
+            $qrValue = URL.DS._route('item:show', $catalogId, [
+                'tokenID' => seal($catalogId)
+            ]);
+
+            $qrName = seal(random_number(15).$catalogId);
+            $QRCODE = QRTokenService::createIMAGE([
+                'qr_name' => $qrName,
+                'path_upload' => PATH_UPLOAD.DS.'catalogs'.DS.'qr_codes',
+                'image_link'  => GET_PATH_UPLOAD.'/'.'catalogs/qr_codes',
+                'qr_value' => $qrValue 
+            ]);
+
+            $this->model->update([
+                'qr_path' => $QRCODE['qr_path'],
+                'qr_link' => $QRCODE['qr_link'],
+                'qr_value' => $QRCODE['qr_value'],
+            ], $catalogId);
         }
 
         public function edit($id) {
@@ -552,7 +579,6 @@
             }
 
             CommonMetaService::addRecord($id, CommonMetaService::CATALOG_VIEW, 1);
-
             $this->data['_formComment']->add([
                 'type' => 'hidden',
                 'name' => 'returnTo',
@@ -729,5 +755,39 @@
 
 
             return $this->view('item/approval', $this->data);
+        }
+
+        public function generateInternalReference($id) {
+            $this->model->update([
+                'internal_reference' => random_number(8)
+            ], $id);
+
+            Flash::set("Internal Reference created!");
+            return redirect(unseal(request()->input('returnTo')));
+        }
+
+        public function printQR($id) {
+
+            $catalog = $this->model->get($id);
+            $backLink = wLinkDefault(_route('item:show', $id), 'Back to view');
+
+            echo "<center> 
+                <div style='width:300px'>
+                    <h3>{$catalog->title}</h3>
+                    <small>{$catalog->internal_reference}</small>
+                ";
+                echo <<<EOF
+                    <img src="{$catalog->qr_link}" alt="" style="display:block;">
+                EOF;
+
+                echo "
+                    <div>{$catalog->genre} || {$catalog->authors}</div>
+                ";
+            echo "</div> </center>";
+
+            //trigger print
+            echo <<<EOF
+                <script> print(); </script>
+            EOF;
         }
     }

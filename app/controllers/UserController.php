@@ -1,9 +1,11 @@
 <?php 
+	load(['UserService'], APPROOT.DS.'services');
 	load(['UserForm'] , APPROOT.DS.'form');
 	load(['BehaviorService'], SERVICES);
 
 	use Form\UserForm;
 	use Services\BehaviorService;
+	use Services\UserService;
 	class UserController extends Controller
 	{
 
@@ -130,5 +132,39 @@
 			$this->model->sendCredential($id);
 			Flash::set("Credentials has been set to the user");
 			return request()->return();
+		}
+
+		public function subAdmins() {
+
+			$users = $this->model->getAll([
+				'where' => [
+					'user_type' => UserService::SUB_ADMIN
+				]
+			]);
+
+			$this->data['users'] = $users;
+			return $this->view('user/sub_admins', $this->data);
+		}
+
+		public function approveSubAdmin($id) {
+			if(isAdmin()) {
+				$user = $this->model->get($id);
+
+				$this->model->update([
+					'is_verified' => !$user->is_verified
+				], $id);
+
+				if(!$user->is_verified) {
+					$message = "Sub admin has been approved";
+				}else{
+					$message = "User has been de-activated";
+				}
+
+				Flash::set($message);
+				return redirect(_route('user:index'));
+			} else {
+				Flash::set("You are not allowed to take this action", 'danger');
+				return request()->return();
+			}
 		}
 	}

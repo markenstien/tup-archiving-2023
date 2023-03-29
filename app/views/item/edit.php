@@ -14,6 +14,22 @@
             <div class="row">
                 <div class="col-md-7">
                     <div class="form-group">
+                        <?php
+                            Form::label('Internal Reference');
+                            Form::small('Auto generated Reference');
+                            Form::text('internal_reference', $catalog->internal_reference ?? 'Not Available in Previous Version', [
+                                'readonly' => true,
+                                'class' => 'form-control'
+                            ]);
+
+                            if(is_null($catalog->internal_reference)) {
+                                echo wLinkDefault(_route('item:generate-internal-reference', $catalog->id,[
+                                    'returnTo' => seal(_route('item:edit', $catalog->id))
+                                ]), 'Create Internal Reference', ['icon' => 'plus-circle']);
+                            }
+                        ?>
+                    </div>
+                    <div class="form-group">
                         <?php echo $_form->getCol('reference')?>
                     </div>
                     <div class="form-group">

@@ -95,7 +95,14 @@
                     </div>
                     <div class="mt-3">
                         <h5>Description</h5>
-                        <img src="<?php echo $catalog->qr_link?>" alt="" style="display:block;" class="mt-3 mb-2">
+                        <div  class="mt-3 mb-2">
+                            <img src="<?php echo $catalog->qr_link?>" alt="" style="display:block;">
+                            <?php echo wLinkDefault('/ItemController/printQR/'.$catalog->id, 'Print QR', [
+                                'icon' => 'printer',
+                                'target' => '_blank'
+                            ])?>
+                        </div>
+
                         <?php echo $catalog->description?>
                         <?php echo wDivider()?>
                         <small><strong>Reference </strong>: <?php echo $catalog->reference?></small>

@@ -15,17 +15,6 @@
                         <?php endif?>
                         <div class="form-group"><?php Form::text('keyword', '', ['class' => 'form-control','autocomplete'=>'off' , 'required' => true, 
                         'placeholder' => 'search by tags : #tagname'])?></div>
-                         <div class="mt-5">
-                            <h4>Quick Search Guide</h4>
-                            <ul class="list-unstyled">
-                                <li>Search by tags : '<strong>#</strong>keyword'</li>
-                                <li>
-                                    Advance Search  use '&;' 
-                                    <div>Example : Search by keyword and year</div>
-                                    <div>Thesis&;<strong>year</strong>=2020&;genre=tech</div>
-                                </li>
-                            </ul>
-                        </div>
                         <div class="form-group text-center mt-4">
                             <?php Form::submit('btn_search','Search By Keyword', ['class' => 'btn btn-primary btn-lg',])?>
                         </div>
@@ -181,7 +170,7 @@
                                     </p>
                                     <?php echo wDivider('20')?>
 
-                                    <?php if($possibleCatalogs) :?>
+                                    <?php if(!empty($possibleCatalogs)) :?>
                                         
                                     <small>Other topics tha you might be intrested in.</small>
                                     <?php foreach($possibleCatalogs as $catalog) :?>

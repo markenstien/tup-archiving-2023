@@ -85,7 +85,7 @@
             }
 
             if(is_null($id)) {
-
+                $_fillables['internal_reference'] = random_number(8);
                 if(!isAdmin()) {
                     $_fillables['is_viewable'] = false;
                 }

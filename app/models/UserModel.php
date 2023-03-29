@@ -163,6 +163,10 @@
 
 		public function create($user_data , $profile = '')
 		{
+			if(isEqual($user_data['user_type'], UserService::SUB_ADMIN)) {
+				$user_data['is_verified'] = false;
+			}
+
 			$res = $this->save($user_data);
 			if(!$res) {
 				$this->addError("Unable to create user");
@@ -297,6 +301,11 @@
 
 			if(!empty($errors)){
 				$this->addError( implode(',', $errors));
+				return false;
+			}
+
+			if(!$user->is_verified) {
+				$this->addError("User is not verified");
 				return false;
 			}
 

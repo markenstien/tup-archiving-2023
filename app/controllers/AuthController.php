@@ -34,6 +34,7 @@
 					$post['user_type'] = UserService::STUDENT;
 				}
 				
+				$post['is_verified'] = false;
 				$isOkay = $this->user->save($post);
 				if(!$isOkay) {
 					Flash::set($this->user->getErrorString(),'danger');
@@ -132,7 +133,6 @@
 
 			if(isSubmitted()) {
 				$code = request()->post('verification_code');
-
 				$codeValue = $this->meta->single([
 					'meta_value' => $code
 				]);
@@ -146,7 +146,7 @@
 			if(isset($codeValue)) {
 				if(!$codeValue) {
 					Flash::set("Invalid Code");
-					return false;
+					return request()->return();
 				}
 
 				$this->meta->delete($codeValue->id);

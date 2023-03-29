@@ -11,9 +11,10 @@
 
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered dataTable">
+                <table class="table dataTable">
                     <thead>
                         <th>#</th>
+                        <th>Internal Reference</th>
                         <th>Name</th>
                         <th>Catagory</th>
                         <th>Genre</th>
@@ -28,6 +29,7 @@
                         <?php foreach($catalogs as $key => $row) :?>
                             <tr>
                                 <td><?php echo ++$key?></td>
+                                <td><?php echo $row->internal_reference ?? 'N/A'?></td>
                                 <td><?php echo $row->title?></td>
                                 <td><?php echo $row->category_name?></td>
                                 <td><?php echo $row->genre?></td>
