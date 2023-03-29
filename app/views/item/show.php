@@ -25,6 +25,10 @@
                                 <?php echo $catalog->category_name?>
                             </span>
                         <?php endif?>
+                        <?php if($catalog->internal_reference) :?>
+                            <small style="display:block">Internal Reference #<?php echo $catalog->internal_reference?></small>
+                            <br>
+                        <?php endif?>
                     </div>
                     <?php
                         if(isAdmin() || isEqual(whoIs('id'), $catalog->uploader_id)) {
