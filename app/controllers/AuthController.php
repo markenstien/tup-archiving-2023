@@ -87,8 +87,7 @@
 					'email' => $post['email']
 				]);
 
-				$loginType = $req['login_type'] ?? 'common-user';
-				
+				$loginType = $post['login_type'] ?? 'common-user';
 				if(isEqual($loginType, 'admin')) {
 					if(!isEqual($user->user_type, [UserService::SUB_ADMIN, UserService::ADMIN])) {
 						Flash::set("user not found", 'danger');
@@ -183,5 +182,23 @@
 			}
 
 			return $this->view('auth/code');
+		}
+
+		public function adminLogin() {
+
+			$form = $this->_form;
+
+			$form->init([
+				'url' => _route('auth:login')
+			]);
+
+			$form->customSubmit('Login' , 'submit' , ['class' => 'btn btn-primary btn-sm']);
+
+			$data = [
+				'title' => 'Login Page',
+				'form'  => $form,
+				'loginType' => $req['login_type'] ?? 'common-user'
+			];
+			return $this->view('auth/admin_login' , $data);
 		}
 	}
