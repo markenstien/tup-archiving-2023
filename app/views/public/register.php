@@ -27,7 +27,16 @@
                     <div class="form-group mt-3">
                         <div class="row">
                             <div class="col-md-6"><?php echo $_form->getCol('email');?></div>
-                            <div class="col-md-6"><?php echo $_form->getCol('password');?></div>
+                            <div class="col-md-6">
+                                <?php echo $_form->getCol('password');?>
+                                <?php
+                                    Form::password('confirm_password', '', [
+                                        'class' => 'form-control',
+                                        'required' => true,
+                                        'placeholder' => 'Confirm Password'
+                                    ])
+                                ?>
+                            </div>
                         </div>
                     </div>
 

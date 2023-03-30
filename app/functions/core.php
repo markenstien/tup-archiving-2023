@@ -103,6 +103,19 @@
         
         return $calledRoute[$method].$parameterString;
     }
+
+    function _route_call($url,$matchURL,$call) {
+
+        $url = implode('/', $url);
+
+        if(isEqual($url, $matchURL)) {
+            $call = explode(':', $call);
+            return [
+                $call[0],
+                $call[1] ?? 'index'
+            ];
+        }
+    }
     
 
     function _projectActivity($projectId , $message , $href , $createdBy)

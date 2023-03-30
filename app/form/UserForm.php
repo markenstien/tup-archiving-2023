@@ -200,7 +200,8 @@
 				],
 
 				'attributes' => [
-					'id' => 'password'
+					'id' => 'password',
+					'placeholder' => 'Password'
 				]
 			]);
 		}

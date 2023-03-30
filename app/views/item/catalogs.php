@@ -16,11 +16,7 @@
                         <th>#</th>
                         <th>Internal Reference</th>
                         <th>Name</th>
-                        <th>Catagory</th>
-                        <th>Genre</th>
-                        <th>Authors</th>
-                        <th>Publishers</th>
-                        <th>year</th>
+                        <th>Year</th>
                         <th>Uploader</th>
                         <th>Action</th>
                     </thead>
@@ -31,10 +27,6 @@
                                 <td><?php echo ++$key?></td>
                                 <td><?php echo $row->internal_reference ?? 'N/A'?></td>
                                 <td><?php echo $row->title?></td>
-                                <td><?php echo $row->category_name?></td>
-                                <td><?php echo $row->genre?></td>
-                                <td><?php echo $row->authors?></td>
-                                <td><?php echo $row->publishers?></td>
                                 <td><?php echo $row->year?></td>
                                 <td><?php echo $row->uploader_name?></td>
                                 <td>

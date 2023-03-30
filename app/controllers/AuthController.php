@@ -28,6 +28,10 @@
 			if(isSubmitted()) {
 				$post = request()->posts();
 
+				if(!isEqual($post['password'], $post['confirm_password'])) {
+					Flash::set("Password does not match", 'warning');
+					return request()->return();
+				}
 				if(!empty($post['user_identification'])) {
 					$post['user_type'] = UserService::COMMON;
 				} else {
@@ -184,7 +188,11 @@
 			return $this->view('auth/code');
 		}
 
-		public function adminLogin() {
+		public function adminLogin(){
+			return $this->admin();
+		}
+
+		public function admin() {
 
 			$form = $this->_form;
 

@@ -9,6 +9,7 @@
 		public function __construct()
 		{
 			$this->url = $this->getURL();
+			$url = $this->url;
 
 			if(isset($this->url[0])) 
 			{
@@ -103,7 +104,7 @@
 			
 			/*CHECK IF METHOD IS SET*/
 			if (method_exists($this->current_controller, 
-			$this->cleanMethod( strtolower($method) ) )){	
+			$this->cleanMethod( strtolower($method)) )){	
 				$this->current_method = $this->cleanMethod($method);
 			}else{
 				err_lost("Action doesnt exists");
