@@ -6,6 +6,13 @@
 			<?php echo wLinkDefault(_route('user:show', $id), 'Cancel Edit', [
 				'icon' => 'x-circle'
 			])?>
+
+			<?php echo wLinkDefault(_route('user:delete', $id, [
+				'returnTo'=> seal(_route('user:index'))
+			]), 'Delete User', [
+				'icon' => 'x-circle',
+				'class' => 'btn btn-danger form-verify',
+			])?>
 		</div>
 
 		<div class="card-body">

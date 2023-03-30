@@ -169,7 +169,7 @@
 
 				Flash::set( "Deleted succesfully ");
 				if( !is_null($returnTo) )
-					return redirect( unseal($returnTo) ); 
+					return redirect(unseal($returnTo)); 
 				return request()->return();
 			}else
 			{
