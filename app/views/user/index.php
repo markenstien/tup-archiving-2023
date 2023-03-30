@@ -21,8 +21,6 @@
 				<table class="table table-bordered dataTable">
 					<thead>
 						<th>Name</th>
-						<th>Student Number</th>
-						<th>Email</th>
 						<th>Type</th>
 						<th>Action</th>
 					</thead>
@@ -31,8 +29,6 @@
 						<?php foreach( $users as $row) :?>
 							<tr>
 								<td><?php echo $row->lastname . ' , ' .$row->firstname?></td>
-								<td><?php echo $row->user_identification?></td>
-								<td><?php echo $row->email ?></td>
 								<td><?php echo $row->user_type ?></td>
 								<td>
 									<?php echo wLinkDefault(_route('user:show', $row->id), 'View', ['icon' => 'eye']) ;?>
