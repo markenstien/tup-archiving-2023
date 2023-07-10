@@ -8,6 +8,7 @@
 
 		private $_error = [];
 		private static $instance = null;
+		public $_retVal = [];
 
 		protected static $MESSAGE_UPDATE_SUCCESS = "UPDATED SUCCESFULLY";
 		protected static $MESSAGE_CREATE_SUCCESS = "CREATED SUCCESFULLY";
@@ -458,6 +459,14 @@
 		);
 		return $this->db->single()->total ?? 0;
 	}
+
+	public function _addRetval($name, $value) {
+			$this->_retVal[$name] = $value;
+		}
+
+		public function _getRetval($name) {
+			return $this->_retVal[$name];
+		}
 
 
  }

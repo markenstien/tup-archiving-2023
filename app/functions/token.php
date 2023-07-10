@@ -11,8 +11,8 @@
         return $result;
     }
 
-	function number_series($string, $startFrom = null){
-		return str_pad($string,10,000,STR_PAD_LEFT);
+	function number_series($string, $startFrom = STR_PAD_LEFT){
+		return str_pad($string,10,000,$startFrom);
 	}
 	
     function random_letter($length = 12)

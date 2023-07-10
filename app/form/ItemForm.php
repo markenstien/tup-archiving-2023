@@ -168,7 +168,6 @@
             $this->add([
                 'type' => 'file',
                 'name' => 'pdf_file',
-                'required' => true,
                 'class' => 'form-control',
                 'options' => [
                     'label' => 'Readable PDF File'
@@ -181,7 +180,6 @@
             $this->add([
                 'type' => 'file',
                 'name' => 'wallpaper',
-                'required' => true,
                 'class' => 'form-control',
                 'options' => [
                     'label' => 'Catalog Profile'
