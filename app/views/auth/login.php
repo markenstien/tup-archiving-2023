@@ -12,10 +12,10 @@
                     </div>
 
                     <div style="flex:1">
-                        <?php Form::open(['method' => 'post','url' => _route('auth:login')])?>
+                        <?php Form::open(['method' => 'post'])?>
                             <?php Flash::show()?>
                             <?php echo wDivider(80)?>
-                                <h4>Welcome To TUP Archive! <?php echo $loginType == 'admin' ? 'Admins' : 'Users'?></h4>
+                                <h4>Welcome To TUP Archive! <?php echo $loginType == 'ADMINISTRATOR' ? 'Admins' : 'Users'?></h4>
                                 <div class="form-group"><?php echo $form->getCol('email');?></div>
                                 <div class="form-group"><?php echo $form->getCol('password');?></div>
                                 <div class="form-group mt-3">

@@ -6,12 +6,12 @@
     switch(SYSTEM_MODE)
     {
         case 'local':
-            define('URL' , 'http://dev.tup_archive');
+            define('URL' , 'http://dev.th_record_management');
             define('DBVENDOR' , 'mysql');
             define('DBHOST' , 'localhost');
             define('DBUSER' , 'root');
             define('DBPASS' , '');
-            define('DBNAME' , 'th_tup_archive');
+            define('DBNAME' , 'th_record_management');
 
             define('BASECONTROLLER' , 'AuthController');
             define('BASEMETHOD' , 'index');

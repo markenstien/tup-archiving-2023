@@ -91,8 +91,8 @@
 					'email' => $post['email']
 				]);
 
-				$loginType = $post['login_type'] ?? 'common-user';
-				if(isEqual($loginType, 'admin')) {
+				$loginType = $req['login_type'] ?? 'common-user';
+				if(isEqual($loginType, 'administrator')) {
 					if(!isEqual($user->user_type, [UserService::SUB_ADMIN, UserService::ADMIN])) {
 						Flash::set("user not found", 'danger');
 						return request()->return();
